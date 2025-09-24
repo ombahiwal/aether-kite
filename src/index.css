@@ -1,0 +1,279 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* src/index.css or App.css */
+@font-face {
+  font-family: 'KlarheitGrotesk';
+  src: url('/fonts/ESKlarheitGrotesk-Rg-TRIAL-BF6618a7002c70f.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KlarheitGrotesk';
+  src: url('/fonts/ESKlarheitGrotesk-Bd-TRIAL-BF6618a70049644.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+/* Klarheit Grotesk Regular (400) */
+@font-face {
+  font-family: 'KlarheitGrotesk';
+  src: url('/fonts/ESKlarheitGrotesk-Rg-TRIAL-BF6618a7002c70f.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Klarheit Grotesk Bold (700) */
+@font-face {
+  font-family: 'KlarheitGrotesk';
+  src: url('/fonts/ESKlarheitGrotesk-Xbd-TRIAL-BF6618a70049644.otf') format('opentype');
+  font-weight: 700;
+  font-style: bold;
+}
+
+/* Klarheit Grotesk Light (300) */
+@font-face {
+  font-family: 'KlarheitGrotesk';
+  src: url('/fonts/ESKlarheitGrotesk-Lt-TRIAL-BF6618a6fe6132f.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Klarheit Grotesk Medium (500) */
+@font-face {
+  font-family: 'KlarheitGrotesk';
+  src: url('/fonts/ESKlarheitGrotesk-Md-TRIAL-BF6618a7001a5a8.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* Klarheit Grotesk SemiBold (600) */
+@font-face {
+  font-family: 'KlarheitGrotesk';
+  src: url('/fonts/ESKlarheitGrotesk-Smbd-TRIAL-BF6618a6ffe805d.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Klarheit Grotesk ExtraBold (800) */
+@font-face {
+  font-family: 'KlarheitGrotesk';
+  src: url('/fonts/ESKlarheitGrotesk-Xbd-TRIAL-BF6618a6e4d7a4d.otf') format('opentype');
+  font-weight: 800;
+  font-style: bold;
+}
+
+/* Klarheit Grotesk Black (900) */
+@font-face {
+  font-family: 'KlarheitGrotesk';
+  src: url('/fonts/ESKlarheitGrotesk-Xblk-TRIAL-BF6618a6fff28dd.otf') format('opentype');
+  font-weight: 900;
+  font-style: bold;
+}
+/* Klarheit Grotesk Black (900) */
+@font-face {
+  font-family: 'KlarheitPlakat';
+  src: url('fonts/ESKlarheitPlakat-Xbd-TRIAL-BF6618a6fcc25cd.otf') format('opentype');
+  font-weight: 700;
+  font-style: bold;
+}
+
+/* Mono Regular (400) */
+@font-face {
+  font-family: 'KlarheitGroteskMono';
+  src: url('/fonts/ESKlarheitGroteskMono-Lt-TRIAL-BF6618a6f26993.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Mono Light (300) */
+@font-face {
+  font-family: 'KlarheitGroteskMono';
+  src: url('/fonts/ESKlarheitGroteskMono-Ltt-TRIAL-BF6618a6fea3bf6.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Mono Medium (500) */
+@font-face {
+  font-family: 'KlarheitGroteskMono';
+  src: url('/fonts/ESKlarheitGroteskMono-Md-TRIAL-BF6618a6e9b5d1f.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* Mono Bold (700) */
+@font-face {
+  font-family: 'KlarheitGroteskMono';
+  src: url('/fonts/ESKlarheitGroteskMono-Bd-TRIAL-BF6618a6e989b5.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Mono ExtraBold (800) */
+@font-face {
+  font-family: 'KlarheitGroteskMono';
+  src: url('/fonts/ESKlarheitGroteskMono-Xbd-TRIAL-BF6618a6e3efb2.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+/* Mono Black (900) */
+@font-face {
+  font-family: 'KlarheitGroteskMono';
+  src: url('/fonts/ESKlarheitGroteskMono-Blkt-TRIAL-BF6618a6e63f53.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+
+:root {
+  font-family: 'KlarheitGrotesk', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+/* Herom Image */
+.hero-text {
+  
+  font-family: 'KlarheitGrotesk', sans-serif;
+  font-size: 6rem;
+  letter-spacing: -4px;
+  line-height: 1;
+  font-weight: bold;
+  position: absolute;
+  top: 40%;
+  left: 5%;
+  color: white;
+}
+/* The hero image */
+.hero-image {
+  background-image: linear-gradient(rgb(255, 255, 255, 0), rgba(0, 0, 0, 0.6)), url("/images/4c-scaled.jpg");
+  /* Set a specific height */
+  min-height: 100vh;
+  /* Position and center the image to scale nicely on all screens */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+/* On mobile, shift focus to the right side */
+@media (max-width: 768px) {
+  .hero-image {
+    background-position: right center; /* show the right part */
+  }
+  .hero-text {
+    top: 28%;
+    font-size: 4rem;
+  }
+}
+
+/* Logo Image */
+.logo-image {
+  background-image: url("/images/aetherlogo-black-text.png");
+  width: 100px; 
+  height: 60px; 
+  background-size: contain; 
+  background-repeat: no-repeat;
+  
+}
+
+/*  typography */
+.text-mono-body {
+  font-family: 'KlarheitGroteskMono', monospace;
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: 1.5; 
+  margin: 10px;
+}
+
+.info-section{
+  padding: 20px;
+  margin: 5%;
+}
+
+.text-section-heading-sub {
+  margin: 10px;
+  font-family: 'KlarheitGroteskMono', monospace;
+  font-weight: 700; /* Bold weight */
+  font-size: 2rem; /* Adjust size as needed */
+  line-height: 1.2;
+}
+
+.text-section-heading-sub2 {
+  margin: 10px;
+  font-family: 'KlarheitGrotesk', sans-serif;
+  font-weight: 700; /* Bold weight */
+  font-size: 4rem; /* Adjust size as needed */
+  line-height: 1.2;
+}
+
+.text-section-heading {
+  margin: 10px;
+  font-family: 'KlarheitGrotesk', sans-serif;
+  font-weight: 700; /* Bold weight */
+  font-size: 5rem; /* Adjust size as needed */
+  line-height: 0.9;
+}

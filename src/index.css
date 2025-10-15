@@ -219,17 +219,7 @@ button:focus-visible {
   background-size: cover;
   position: relative;
 }
-/* On mobile, shift focus to the right side */
-@media (max-width: 768px) {
-  .hero-image {
-    background-position: right center; /* show the right part */
-  }
-  .hero-text {
-    left: 5%;
-    top: 28%;
-    font-size: 4rem;
-  }
-}
+
 
 .video-background {
   position: relative;
@@ -362,4 +352,22 @@ button:focus-visible {
   padding: 5px;
   background-size: contain; 
   background-repeat: no-repeat;
+}
+
+/* On mobile, shift focus to the right side */
+@media (max-width: 768px) {
+  .hero-image {
+    background-position: right center; /* show the right part */
+  }
+  .hero-text {
+    left: 5%;
+    top: 28%;
+    font-size: 4rem;
+  }
+
+  .text-section-heading-sub-role {
+  font-size: 1.2rem; /* Adjust size as needed */
+  line-height: 1.2;
+}
+
 }

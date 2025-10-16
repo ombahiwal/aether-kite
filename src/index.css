@@ -207,6 +207,7 @@ button:focus-visible {
   top: 40%;
   left: 5%;
   color: white;
+  max-width: 50%;
 }
 /* The hero image */
 .hero-image {
@@ -219,6 +220,16 @@ button:focus-visible {
   background-size: cover;
   position: relative;
 }
+
+.hero-video{
+              position: "absolute";
+              top: 0;
+              left: 0;
+              width: "100%";
+              height: "100%";
+              objectFit: "cover";
+              zIndex: 0;
+            }
 
 
 .video-background {
@@ -269,8 +280,7 @@ button:focus-visible {
 /* Section block */
 .info-section{
   padding: 20px;
-  margin: 5%;
-  
+  margin: 25%;
 }
 
 .roles-section{
@@ -318,7 +328,7 @@ button:focus-visible {
 }
 
 .text-section-heading {
-  /* margin: 10px; */
+  
   margin-bottom: 1.2rem;
   font-family: 'KlarheitGrotesk', sans-serif;
   font-weight: 700; /* Bold weight */
@@ -327,7 +337,7 @@ button:focus-visible {
 }
 
 .border-1px {
-  border: 1px solid #1a1a1a;
+  /* border: 1px solid #1a1a1a; */
   padding: 10px;
   margin: 10px;
 }
@@ -366,8 +376,62 @@ button:focus-visible {
   }
 
   .text-section-heading-sub-role {
+  
   font-size: 1.2rem; /* Adjust size as needed */
   line-height: 1.2;
 }
 
+}
+
+/* Header CSS */
+
+.site-header {
+  position: relative;
+  width: 100%;
+  background: transparent;
+  transition: all 0.3s ease;
+  padding: 1rem 2rem;
+  z-index: 1000;
+}
+
+.site-header .header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 1.5rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: #ddd;
+}
+
+/* Sticky behavior */
+.site-header.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.large-link{
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 20px; 
+}
+.clean-link {
+  
+  text-decoration: none;
+}
+.clean-link:hover {
+font-family: 'KlarheitGrotesk', sans-serif;
+  border: 1px solid black;
 }

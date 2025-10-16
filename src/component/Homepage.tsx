@@ -5,6 +5,9 @@ import { useEffect, useState } from 'react';
 import { getContent} from '../api/cfclient';
 import ReactMarkdown from "react-markdown";
 
+import Footer from "./Footer";
+import TextType from './TextType';
+
 
 
 const HomePage: React.FC = () => {
@@ -18,44 +21,84 @@ const HomePage: React.FC = () => {
     console.log("Fetched data:", data);
   }, []);
 
-    let groupPartnersByCategory = (data) => {
-        console.log("Grouping partners from data:", data);
-        if (!Array.isArray(data)) return {};
 
-        // Filter only partners
-        const partners = data.filter(item => item.contentType === "partners");
-
-        // Group by partnerCategory
-        const grouped = partners.reduce((acc, partner) => {
-            const category = partner.fields.partnerCategory || "Uncategorized";
-            if (!acc[category]) {
-                acc[category] = [];
-            }
-                acc[category].push(partner);
-            return acc;
-        }, []);
-
-        // Optional: sort partners within each category by order
-        for (const category in grouped) {
-            grouped[category].sort((a, b) => (a.fields.order || 0) - (b.fields.order || 0));
-        }
-    
-        return grouped;
-    };
 
   return (
   <div>
-    {data && data.map((item:object, index)=> {
-    if(item.contentType === "hero")
+ {data && data.map((item: any, index: number) => {
+  if (item.contentType === "hero") {
+    const videoUrl = item.fields.heroVideo;
+    const imageUrl = item.fields.heroImage;
+
     return (
-     <div key={index} style={{ backgroundImage: `linear-gradient(rgb(255, 255, 255, 0), rgba(0, 0, 0, 0.2)), url(${item.fields.heroImage})` }} className="hero-image" key={index}>
-            <div className="hero-text">
-                <div className="logo-image"></div>
-                <div>{item.fields.heroText}</div>
-            </div>
-        </div>);
-            
-    })}
+      <div key={index} className="hero-image position-relative overflow-hidden">
+        {/* Background video */}
+        {videoUrl ? (
+          <video
+            className="hero-video"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              zIndex: 0,
+            }}
+          >
+            <source src={videoUrl} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        ) : (
+          /* Fallback image background */
+          <div
+            className="hero-bg-image"
+            style={{
+              backgroundImage: `linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.2)), url(${imageUrl})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              zIndex: 0,
+            }}
+          ></div>
+        )}
+
+        {/* Text overlay */}
+        <div
+          className="hero-text position-relative"
+          style={{
+            zIndex: 1,
+            color: "#fff",
+            textAlign: "left",
+            padding: "10rem 2rem",
+          }}
+        >
+          {/* <div className="logo-image"></div> */}
+          {/* <div>{item.fields.heroText}</div> */}
+          {/* <div className="logo-image">DRIVING ENERGY TRANSITION, Powered by  Kites</div> */}
+          <TextType 
+                text={[item.fields.heroText, "Æther Swiss Kite."]}
+                typingSpeed={40}
+                pauseDuration={2500}
+                deletingSpeed={10}
+                showCursor={true}
+                cursorCharacter=""
+                />
+        </div>
+      </div>
+    );
+  }
+  return null;
+})}
 <div style={{ height: '250px', position: 'relative' }}>
                 <Threads
                     amplitude={0.9}
@@ -65,132 +108,113 @@ const HomePage: React.FC = () => {
                 />
             </div>
   <Container fluid>
-       <Col> 
-        {data && data.map((item: object, index) => {
-            if(item.contentType === "infoSection"){
-                return (
-                    <Container key={index} className="info-section border-1px" fluid>
-                        <Row>
-                            <p className="text-left text-section-heading ">{item.fields.infoTitle}</p>
-                        </Row>
-                        <Row>
-                            <Col sm={8}>
-                                <Image src={item.fields.infoImage} alt="Shipping Emissions" fluid />
-                            </Col>
-                            <Col sm={4}>
-                                <span className="text-mono-body text-left"> <ReactMarkdown>{item.fields.infoDesc}</ReactMarkdown></span>
-                            </Col>
-                        </Row>
-                    </Container>
-                );
-            }
-                
-        })}
-                
-            {/* Engineering section  */}
-            <Container className="roles-section border-1px" fluid>
-                <Row>
-                    <p className="text-left text-section-heading ">Teams</p>
-                </Row>
 
-        <Row >
-                 {data && data.map((item: object, index) => {
-                        if(item.contentType === "roleTeams"){
-                            return (
-                                        <Col key={index} sm={5} className="border-1px">
-                                            <Row>
-                                                <Col md={5}><Image src={item.fields.roleImage} fluid/></Col>
-                                                <Col md={7}>
-                                                    <h1 className='text-section-heading-sub-role'>{item.fields.roleTitle}</h1>
-                                                    <span className='text-mono-body'>
-                                                       <ReactMarkdown>{item.fields.roleDescLong}</ReactMarkdown>
-                                                    </span>
-                                                </Col> 
-                                            </Row>
-                                        </Col>
-                                    
-                            );
-                        }   
-                    })}
-                    
-           </Row> 
-                <Row>
-                     <Col sm={6} className="border-1px">
-                    </Col>
-                     <Col sm={4} className="border-1px">
-                    </Col>
+    {data &&
+  data
+    .filter((item) => item.contentType === "infoSection")
+    .sort((a, b) => (a.fields.order || 0) - (b.fields.order || 0))
+    .map((item, index) => (
+      <Container
+        key={index}
+        fluid
+        className="info-section py-6 px-3 px-md-4 mb-5 border-1px "
+      >
+        {/* Title */}
+        <Row className="mb-4">
+             <Col sm={1} className="d-flex align-items-center justify-content-center"></Col>
+          <Col>
+            <h2 className="text-section-heading mb-0">{item.fields.infoTitle}</h2>
+          </Col>
+        </Row>
 
-                </Row>
-            </Container>
+        {/* Content */}
+        <Row className=" gy-4">
+          {/* Image column */}
+          <Col sm={1} className="d-flex align-items-center justify-content-center"></Col>
+          <Col xs={12} md={6} className="text-center">
+            <Image
+              src={item.fields.infoImage}
+              alt={item.fields.infoTitle || "Section image"}
+              fluid
+              className="shadow-sm"
+            />
+          </Col>
 
-             {/* Partners section  */}
-            <Container className="partners-section border-1px" fluid>
-                <Row >
-                    <p className="text-left text-section-heading ">Our Partners</p>
-                </Row>
-                
-                <Row className="">
-                   {data && Object.entries(groupPartnersByCategory(data)).map(([category, partners]) => (
-                        <Container key={category} fluid className="partners-section mb-5">
-                            <Row className="align-items-center">
-                            <Col sm={2}>
-                                <h1 className="text-section-heading-sub">{category}</h1>
-                            </Col>
-
-                            <Col sm={10}>
-                                <Row className="gy-4">
-                                {partners.map((partner) => (
-                                    <Col key={partner.id} sm={4} className="text-center">
-                                    <Image
-                                        className="image-partner"
-                                        src={partner.fields.partnerLogo}
-                                        alt={partner.fields.partnerName}
-                                        fluid
-                                    />
-                                    <p className="text-mono-body mt-2">{partner.fields.partnerName}</p>
-                                    </Col>
-                                ))}
-                                </Row>
-                            </Col>
-                            </Row>
-                        </Container>
-                        ))}
-                </Row>       
-          
-            </Container>
-
-            {/* Contact section / footer */}
-            <Container className='contact-section border-1px' fluid>
-                <Row>
-                    <Col>
-                        <p className="text-left text-section-heading ">Get in touch</p>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm={6}>
-                        <p className='text-mono-body'>
-                            Interested in joining the team or want to  
-                            learn more about our project? Reach out to us at <a href="mailto:contact@aetherswisskite.ch">contact@aetherswisskite.ch</a>
-                        </p>
-                    </Col>
-                    
-                    <Col sm={4}>
-                            <a href="https://youtu.be/DNMRI-zWwSU?feature=share"><Image className='icon-social' width={50} src='/icons/youtube.svg' fluid/></a>
-                            <a  href="https://www.instagram.com/reel/DGyQEk8OGNs/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA="><Image className='icon-social' src='/icons/instagram.svg' fluid/></a>
-                            <a href="https://www.linkedin.com/company/%C3%A6ther-swiss-kite"><Image className='icon-social' width={50} src='/icons/linkedin.svg' fluid/></a>
-                    </Col>
-
-                </Row>
-
-                <Row>
-                    <p className='text-mono-body'>Copyright 2025 | Æther | All Rights Reserved</p>
-                </Row>
-            </Container>
+          {/* Description column */}
+          <Col xs={12} md={4}>
+            <div className="text-mono-body text-left fs-6 lh-lg">
+              <ReactMarkdown>{item.fields.infoDesc}</ReactMarkdown>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    ))}
+           <Container className="roles-section border-1px py-5" fluid>
+        {/* Section title */}
+        <Row className="mb-4">
+            <Col sm={1}></Col>
+            <Col sm={10}>
+            <p className="text-left text-section-heading"><a className="large-link clean-link" href="/join">JOIN</a></p>              
+            <p className="text-left text-section-heading"><a className="large-link clean-link" href="/team">THE TEAM</a></p>              
+            <p className="text-left text-section-heading"><a className="large-link clean-link" href="#contact">GET IN TOUCH </a></p>              
             
-            {/* <Container>
-                        <ScrollLine drawDistance={1200} strokeColor="#CFE9FF" strokeWidth={4} />
-            </Container> */}
             </Col>
+        </Row>
+    </Container>
+
+<Container className="roles-section border-1px py-5" fluid>
+  {/* Section title */}
+  <Row className="mb-4">
+    <Col sm={1}></Col>
+    <Col sm={10}>
+      <p className="text-left text-section-heading"></p>
+    </Col>
+  </Row>
+
+  {/* Roles grid */}
+  <Row className="g-4 justify-content-center">
+    {data &&
+      data
+        .filter((item) => item.contentType === "roleTeams")
+        .sort((a, b) => (a.fields.order || 0) - (b.fields.order || 0))
+        .map((item, index) => (
+          <Col
+            key={index}
+            xs={12}
+            md={6}
+            lg={5}
+            className="border-1px  p-3"
+          > 
+            <Row className="align-items-center">
+              {/* Image column */}
+              <Col xs={12} sm={5} className="mb-3 mb-sm-0 text-center">
+                <Image
+                  src={item.fields.roleImage}
+                  alt={item.fields.roleTitle}
+                  fluid
+                  className="shadow-sm"
+                />
+              </Col>
+
+              {/* Text column */}
+              <Col xs={12} sm={7}>
+                <h2 className="text-section-heading-sub-role mb-2">
+                  {item.fields.roleTitle}
+                </h2>
+                <div className="text-mono-body small">
+                  <ReactMarkdown>{item.fields.roleDescLong}</ReactMarkdown>
+                </div>
+              </Col>
+            </Row>
+          </Col>
+        ))}
+  </Row>
+</Container>
+           
+            <section id="contact"></section>
+            <Footer/>
+            
+            
         </Container>
         </div>
 

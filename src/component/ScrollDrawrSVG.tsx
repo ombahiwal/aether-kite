@@ -16,14 +16,14 @@ const ScrollDrawSVG: React.FC = () => {
       const length = path.getTotalLength();
       gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
       gsap.to(path, {
-        strokeDashoffset: 0,
+        strokeDashoffset: 2,
         ease: "none",
         scrollTrigger: {
           trigger: svgRef.current,
           start: "+=100 bottom",
           end: "+=500 top",
           scrub: true,
-          invalidateOnRefresh: true
+        //   invalidateOnRefresh: true 
         },
       });
     });

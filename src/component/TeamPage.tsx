@@ -1,11 +1,12 @@
 import React from 'react';
 import ThreadsCanvas from './ThreadsCanvas';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Nav } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { getContent} from '../api/cfclient';
 import { Image } from 'react-bootstrap';
 import ReactMarkdown from "react-markdown";
 import Footer from "./Footer";
+import NavComponent from './NavComponent';
 const TeamPage: React.FC = () => {
 
     const [data, setData] = useState<object[]>([]);
@@ -50,19 +51,29 @@ const TeamPage: React.FC = () => {
   
     <Container fluid>
       <Row>
-        <Col>
-          <h1 className='text-section-heading'>The Aether Swiss Kite team </h1>
+        <Col sm={1}></Col>
+        <Col sm={10}>
+          <NavComponent/>
+        </Col>
+      </Row>
+      <Row>
+        <Col sm={6}></Col>
+        <Col sm={6}>
+           <h1 className='text-section-heading'>The Aether Swiss Kite team </h1>
         </Col>
       </Row>
 </Container>
+
         {data && Object.entries(groupTeamsByCategory(data)).map(([category, teams]) => (
                         <Container key={category} fluid className="partners-section mb-5">
                           <Row>
+                            <Col sm={1}></Col>
                             <Col sm={3}>
                                 <h1 className="text-section-heading-sub">{category}</h1>
                             </Col>
                           </Row>
                             <Row className="align-items-center">
+                              <Col sm={1}></Col>
                               <Col sm={10}>
                                   <Row className="gy-4">
                                   {teams.map((team) => (

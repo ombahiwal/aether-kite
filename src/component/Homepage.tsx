@@ -1,6 +1,6 @@
 import React from 'react';
-import { Container, Col, Row, Image} from 'react-bootstrap';
-
+import { Container, Col, Row, Image, Nav} from 'react-bootstrap';
+import NavComponent from './NavComponent';
 import { useEffect, useState } from 'react';
 import { getContent} from '../api/cfclient';
 import ReactMarkdown from "react-markdown";
@@ -153,9 +153,7 @@ const HomePage: React.FC = () => {
                     <ScrollDrawSVG/>
                   </div>
                   <div className='kite-div-over'>
-                    <p className="text-left text-section-heading"><a className="large-link clean-link text-section-heading" href="/join"> JOIN</a></p>              
-                    <p className="text-left text-section-heading"><a className="large-link clean-link" href="/team"> THE TEAM</a></p>              
-                    <p className="text-left text-section-heading"><a className="large-link clean-link" href="#contact"> GET IN TOUCH </a></p>              
+                  <NavComponent/>
                   </div>
             </Col>
         </Row>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { getContent} from '../api/cfclient';
 import { Image } from 'react-bootstrap';
-import ReactMarkdown from "react-markdown";
+import NavComponent from './NavComponent';
 import ThreadsCanvas from './ThreadsCanvas';
 import Footer from "./Footer";
 const JoinPartnerPage: React.FC = () => {
@@ -45,17 +45,20 @@ const JoinPartnerPage: React.FC = () => {
                            <ThreadsCanvas color={[105,105,105]} amplitude={250} distance={20} numLines={8} />
                         </div>
             
-                <Container fluid>
-                <Row>
-                    <Col>
-                    <h1 className='text-section-heading'>Join Us</h1>
+                <Container fluid>  
+                <Row className="mb-6">
+                    <Col sm={1}></Col>
+                    <Col sm={10}>
+                    <NavComponent/>
+                    <p className='text-mono-body'>Become a partner </p>
                     </Col>
                 </Row>
                 </Container>
                   {/* Partners section  */}
                             <Container className="partners-section border-1px" fluid>
                                 <Row >
-                                    <p className="text-left text-section-heading ">Our Partners</p>
+                                    <Col sm={1}></Col>
+                                    <Col sm={10}><p className="text-left text-section-heading ">Our Partners</p></Col>
                                 </Row>
                                 
                                 <Row className="">

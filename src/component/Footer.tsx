@@ -4,8 +4,9 @@ import { Container, Col, Row, Image} from 'react-bootstrap';
 
 const Footer: React.FC = () => {
     return (
-            
+    
             <Container  className='contact-section border-1px' fluid>
+                
                 <Row>
                     <Col sm={1}></Col>
                     <Col sm={11} md={4}>
@@ -37,6 +38,7 @@ const Footer: React.FC = () => {
                     
                 </Row>
             </Container>
+            
             )
         }
 

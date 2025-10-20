@@ -20,14 +20,16 @@ const ScrollDrawSVG: React.FC = () => {
         ease: "none",
         scrollTrigger: {
           trigger: svgRef.current,
-          start: "top bottom",
-          end: "-=1px",
+          start: "+=100 bottom",
+          end: "+=500 top",
           scrub: true,
           invalidateOnRefresh: true
         },
       });
     });
-  }, []);
+     // Refresh ScrollTrigger after animations are created
+        ScrollTrigger.refresh();
+  }, [svgRef]);
   
 
   return (

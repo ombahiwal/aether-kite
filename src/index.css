@@ -209,13 +209,13 @@ button:focus-visible {
   color: white;
   max-width: 50%;
 }
+
 /* The hero image */
 .hero-image {
   
   /* Set a specific height */
   height: 100vh;
   min-height: 100vh;
-  
   
   /* Position and center the image to scale nicely on all screens */
   background-position: center;

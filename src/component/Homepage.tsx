@@ -23,9 +23,11 @@ const HomePage: React.FC = () => {
   }, []);
 
 
-
+  if(!data){
+    return <div>Loading...</div>;
+  }else{
   return (
-  <div>
+    <div>
  {data && data.map((item: any, index: number) => {
   if (item.contentType === "hero") {
     const videoUrl = item.fields.heroVideo;
@@ -213,6 +215,7 @@ const HomePage: React.FC = () => {
         </div>
 
   );
+  }
 };
 
 export default HomePage;

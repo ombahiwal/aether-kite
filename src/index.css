@@ -402,10 +402,11 @@ button:focus-visible {
   position: relative;
   scale:1.25;
   height: 100vh;
-  left: -150%;
+  left: -174%;
   width: 250%;
   z-index: 1;
   opacity: 0.9;
+ 
 }
 }
 

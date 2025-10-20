@@ -59,7 +59,7 @@ const TeamPage: React.FC = () => {
       <Row>
         <Col sm={6}></Col>
         <Col sm={6}>
-           <h1 className='text-section-heading'>The Aether Swiss Kite team </h1>
+           <h1 className='text-section-heading'>The Æther Swiss Kite team </h1>
         </Col>
       </Row>
 </Container>

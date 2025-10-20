@@ -199,12 +199,12 @@ button:focus-visible {
 .hero-text {
   
   font-family: 'KlarheitGrotesk', sans-serif;
-  font-size: 5rem;
+  font-size: 6rem;
   letter-spacing: -4px;
   line-height: 1;
   font-weight: bold;
   position: absolute;
-  top: 40%;
+  top: 12%;
   left: 5%;
   color: white;
   max-width: 50%;
@@ -213,7 +213,10 @@ button:focus-visible {
 .hero-image {
   background-image: linear-gradient(rgb(255, 255, 255, 0), rgba(0, 0, 0, 0.6)), url("/images/4c-scaled.jpg");
   /* Set a specific height */
+  height: 100vh;
   min-height: 100vh;
+  
+  
   /* Position and center the image to scale nicely on all screens */
   background-position: center;
   background-repeat: no-repeat;
@@ -272,7 +275,7 @@ button:focus-visible {
 .text-mono-body {
   font-family: 'KlarheitGroteskMono', monospace;
   font-weight: 400;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   line-height: 1.5; 
   margin-top: 10px;
 }
@@ -364,14 +367,26 @@ button:focus-visible {
   background-repeat: no-repeat;
 }
 
+.kite-div{
+  /* display: flex; */
+  /* align-items: right; */
+  margin-bottom: -200px;
+  z-index: 1;
+  opacity: 0.9;
+}
+.kite-div-over{
+  position: relative;
+  z-index: 10;
+  margin-top: -250px;
+}
 /* On mobile, shift focus to the right side */
 @media (max-width: 768px) {
   .hero-image {
     background-position: right center; /* show the right part */
   }
   .hero-text {
-    left: 5%;
-    top: 28%;
+    left: 1%;
+    top: 10%;
     font-size: 4rem;
   }
 

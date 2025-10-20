@@ -1,12 +1,13 @@
 import React from 'react';
 import { Container, Col, Row, Image} from 'react-bootstrap';
-import Threads from './Threads';
+
 import { useEffect, useState } from 'react';
 import { getContent} from '../api/cfclient';
 import ReactMarkdown from "react-markdown";
-
+import ThreadsCanvas from './ThreadsCanvas';
 import Footer from "./Footer";
 import TextType from './TextType';
+import ScrollDrawSVG from './ScrollDrawrSVG';
 
 
 
@@ -99,13 +100,8 @@ const HomePage: React.FC = () => {
   }
   return null;
 })}
-<div style={{ height: '250px', position: 'relative' }}>
-                <Threads
-                    amplitude={0.9}
-                    distance={0.5}
-                    // color={[, 0, 0]}
-                    enableMouseInteraction={true}
-                />
+<div style={{ height: '350px', position: 'relative' }}>
+                <ThreadsCanvas  />
             </div>
   <Container fluid>
 
@@ -149,27 +145,27 @@ const HomePage: React.FC = () => {
         </Row>
       </Container>
     ))}
-           <Container className="roles-section border-1px py-5" fluid>
-        {/* Section title */}
-        <Row className="mb-4">
+    <Container fluid className="py-5">
+       <Row className="mb-6">
             <Col sm={1}></Col>
-            <Col sm={10}>
-            <p className="text-left text-section-heading"><a className="large-link clean-link" href="/join">JOIN</a></p>              
-            <p className="text-left text-section-heading"><a className="large-link clean-link" href="/team">THE TEAM</a></p>              
-            <p className="text-left text-section-heading"><a className="large-link clean-link" href="#contact">GET IN TOUCH </a></p>              
-            
+                  <Col sm={10}>
+                  <div className='kite-div'>
+                    <ScrollDrawSVG/>
+                  </div>
+                  <div className='kite-div-over'>
+                    <p className="text-left text-section-heading"><a className="large-link clean-link text-section-heading" href="/join"> JOIN</a></p>              
+                    <p className="text-left text-section-heading"><a className="large-link clean-link" href="/team"> THE TEAM</a></p>              
+                    <p className="text-left text-section-heading"><a className="large-link clean-link" href="#contact"> GET IN TOUCH </a></p>              
+                  </div>
             </Col>
         </Row>
     </Container>
+    <Container className="roles-section border-1px py-5" fluid>
+      
+      
+    
 
-<Container className="roles-section border-1px py-5" fluid>
-  {/* Section title */}
-  <Row className="mb-4">
-    <Col sm={1}></Col>
-    <Col sm={10}>
-      <p className="text-left text-section-heading"></p>
-    </Col>
-  </Row>
+
 
   {/* Roles grid */}
   <Row className="g-4 justify-content-center">

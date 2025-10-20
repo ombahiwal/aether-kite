@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Threads from './Threads';
+
 import { Container, Row, Col } from 'react-bootstrap';
 import { getContent} from '../api/cfclient';
 import { Image } from 'react-bootstrap';
 import ReactMarkdown from "react-markdown";
+import ThreadsCanvas from './ThreadsCanvas';
 import Footer from "./Footer";
 const JoinPartnerPage: React.FC = () => {
     const [data, setData] = useState<object[]>([]);
@@ -41,12 +42,7 @@ const JoinPartnerPage: React.FC = () => {
     };
     return (<div> 
                 <div style={{ height: '300px', position: 'relative' }}>
-                            <Threads
-                                amplitude={1}
-                                distance={0.5}
-                                // color={[, 0, 0]}
-                                enableMouseInteraction={true}
-                            />
+                           <ThreadsCanvas color={[105,105,105]} amplitude={250} distance={20} numLines={8} />
                         </div>
             
                 <Container fluid>

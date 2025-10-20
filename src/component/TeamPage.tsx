@@ -1,5 +1,5 @@
 import React from 'react';
-import Threads from './Threads';
+import ThreadsCanvas from './ThreadsCanvas';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { getContent} from '../api/cfclient';
@@ -45,12 +45,7 @@ const TeamPage: React.FC = () => {
 
   return (<div>
     <div style={{ height: '300px', position: 'relative' }}>
-                <Threads
-                    amplitude={1}
-                    distance={0.5}
-                    // color={[, 0, 0]}
-                    enableMouseInteraction={true}
-                />
+                <ThreadsCanvas />
             </div>
   
     <Container fluid>

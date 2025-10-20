@@ -23,6 +23,7 @@ const ScrollDrawSVG: React.FC = () => {
           start: "top bottom",
           end: "-=1px",
           scrub: true,
+          invalidateOnRefresh: true
         },
       });
     });
@@ -31,14 +32,14 @@ const ScrollDrawSVG: React.FC = () => {
 
   return (
     <div className="flex justify-center py-40">
-              <svg ref={svgRef} width="100%" height="100%" viewBox="0 0 4733 4602" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" xmlSpace="preserve" xmlns:serif="http://www.serif.com/" style={{ fillRule: "evenodd", clipRule: "evenodd", strokeLinecap: "round", strokeLinejoin: "round", strokeMiterlimit: "10" }}>
+              <svg ref={svgRef}  width="100%" height="100%" viewBox="0 0 4733 4602" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" xmlSpace="preserve" xmlns:serif="http://www.serif.com/" style={{ fillRule: "evenodd", clipRule: "evenodd", strokeLinecap: "round", strokeLinejoin: "round", strokeMiterlimit: "10" }}>
     <g id="Artboard1">
     </g>
     <g id="Artboard2">
     </g>
     <g id="Artboard3" transform="matrix(0.58547,0,0,0.826986,-2816.96,-220.115)">
         <rect x="4811.45" y="266.165" width="8084.05" height="5563.98" style={{ fill: "none" }}/>
-        <g id="Artboard11" serifId="Artboard1" transform="matrix(1.70803,0,0,1.20921,4447.57,3519.35)">
+        <g id="Artboard11"  transform="matrix(1.70803,0,0,1.20921,4447.57,3519.35)">
             <g>
                 <g>
                     <g>
@@ -839,7 +840,7 @@ const ScrollDrawSVG: React.FC = () => {
         <g transform="matrix(1.70803,0,0,1.20921,3022.78,266.165)">
             <path d="M2559.52,3620.75L2541.62,3669.25" style={{ fill: "none", stroke: "black", strokeWidth: "2.5px", strokeMiterlimit: "1.5" }}/>
         </g>
-        <g id="Artboard12" serifId="Artboard1" transform="matrix(3.19766,2.05682,-2.90529,2.2638,10193.5,-767.341)">
+        <g id="Artboard12"  transform="matrix(3.19766,2.05682,-2.90529,2.2638,10193.5,-767.341)">
             <g>
                 <g>
                     <g>

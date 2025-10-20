@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@svgr/webpack": "^8.1.0",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.12.2",
     "bootstrap": "^5.3.8",
     "contentful": "^11.8.6",
     "gsap": "^3.13.0",
+    "noisejs": "^2.1.0",
     "ogl": "^1.0.11",
     "react": "^19.1.1",
     "react-bootstrap": "^2.10.10",

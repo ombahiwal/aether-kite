@@ -211,7 +211,7 @@ button:focus-visible {
 }
 /* The hero image */
 .hero-image {
-  background-image: linear-gradient(rgb(255, 255, 255, 0), rgba(0, 0, 0, 0.6)), url("/images/4c-scaled.jpg");
+  
   /* Set a specific height */
   height: 100vh;
   min-height: 100vh;

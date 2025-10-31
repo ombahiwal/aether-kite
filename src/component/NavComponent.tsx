@@ -1,14 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
+
 interface NavProps {
   className?: string;
 }
 
 const Nav: React.FC<NavProps> = ({ className = "" }) => {
+  const location = useLocation();
+  const { t } = useLanguage();
+  
   const links = [
-    { href: "/join", label: "JOIN" },
-    { href: "/team", label: "THE TEAM" },
-    { href: "/#contact", label: "GET IN TOUCH" },
+    { href: "/join", label: t("nav.join") },
+    { href: "/team", label: t("nav.team") },
+    { href: "/#contact", label: t("nav.getInTouch") },
   ];
 
   return (

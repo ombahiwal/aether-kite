@@ -1,34 +1,147 @@
-import React from 'react';
-import { Container, Col, Row, Image, Nav} from 'react-bootstrap';
+import React, { useRef } from 'react';
+import { Container, Col, Row, Image, Spinner} from 'react-bootstrap';
 import NavComponent from './NavComponent';
+import Header from './Header';
 import { useEffect, useState } from 'react';
+import { useLanguage } from '../context/LanguageContext';
+// @ts-ignore - cfclient.js doesn't have type definitions
 import { getContent} from '../api/cfclient';
 import ReactMarkdown from "react-markdown";
 import ThreadsCanvas from './ThreadsCanvas';
 import Footer from "./Footer";
 import TextType from './TextType';
-import ScrollDrawSVG from './ScrollDrawrSVG';
+import ScrollDrawSVG from './ScrollDrawSVG';
+import ScrollPath from './ScrollPath';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 
+
+interface ContentItem {
+  contentType: string;
+  fields: {
+    [key: string]: any;
+    heroVideo?: string;
+    heroImage?: string;
+    heroText?: string;
+    infoTitle?: string;
+    infoDesc?: string;
+    infoImage?: string;
+    order?: number;
+    roleTitle?: string;
+    roleDescLong?: string;
+    roleImage?: string;
+  };
+}
 
 const HomePage: React.FC = () => {
+    const { t } = useLanguage();
+    const [data, setData] = useState<ContentItem[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isContentLoaded, setIsContentLoaded] = useState<boolean>(false);
+    const rolesSectionRef = useRef<HTMLDivElement>(null);
 
-    const [data, setData] = useState<object[]>([]);
     useEffect(() => {
-    getContent("info_section").then((data_resp: object[])  => {
-            setData(data_resp as object[]);
-            console.log("Data response:", data_resp);
-        });
-    console.log("Fetched data:", data);
-  }, []);
+      const fetchData = async () => {
+        try {
+          setIsLoading(true);
+          const dataResp = await getContent("info_section");
+          setData(dataResp as ContentItem[]);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchData();
+    }, []);
+
+    // Wait for images and content to load
+    useEffect(() => {
+      if (!isLoading && data.length > 0) {
+        // Use a timeout to wait for DOM to fully render
+        const checkContentLoaded = () => {
+          const images = document.querySelectorAll('img');
+          const totalImages = images.length;
+
+          if (totalImages === 0) {
+            setIsContentLoaded(true);
+            return;
+          }
+
+          let loadedCount = 0;
+
+          const cleanup = () => {
+            images.forEach((img) => {
+              img.removeEventListener('load', checkImageLoad);
+              img.removeEventListener('error', checkImageLoad);
+            });
+          };
+
+          const checkImageLoad = () => {
+            loadedCount++;
+            if (loadedCount === totalImages) {
+              cleanup();
+              // Small delay to ensure everything is rendered and ScrollTrigger can calculate positions
+              setTimeout(() => {
+                setIsContentLoaded(true);
+              }, 300);
+            }
+          };
+
+          const checkAllLoaded = () => {
+            let allLoaded = true;
+            images.forEach((img) => {
+              if (!img.complete) {
+                allLoaded = false;
+              }
+            });
+            if (allLoaded && loadedCount === 0) {
+              cleanup();
+              setTimeout(() => {
+                setIsContentLoaded(true);
+              }, 300);
+            }
+          };
+
+          images.forEach((img) => {
+            if (img.complete && img.naturalHeight !== 0) {
+              checkImageLoad();
+            } else {
+              img.addEventListener('load', checkImageLoad);
+              img.addEventListener('error', checkImageLoad);
+            }
+          });
+
+          // Fallback: if no images are loading, set as loaded
+          setTimeout(() => {
+            checkAllLoaded();
+          }, 100);
+        };
+
+        // Wait for DOM to render before checking images
+        const timeoutId = setTimeout(checkContentLoaded, 100);
+
+        return () => clearTimeout(timeoutId);
+      }
+    }, [isLoading, data]);
 
 
-  if(!data){
-    return <div>Loading...</div>;
+  if(isLoading || !data || data.length === 0){
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <Spinner animation="border" role="status" style={{ color: 'black', width: '3rem', height: '3rem' }}>
+          <span className="visually-hidden">{t('common.loading')}</span>
+        </Spinner>
+      </div>
+    );
   }else{
   return (
-    <div>
- {data && data.map((item: any, index: number) => {
+    <div style={{ position: 'relative' }}>
+ {data && data.map((item, index: number) => {
   if (item.contentType === "hero") {
     const videoUrl = item.fields.heroVideo;
     const imageUrl = item.fields.heroImage;
@@ -89,7 +202,7 @@ const HomePage: React.FC = () => {
           {/* <div>{item.fields.heroText}</div> */}
           {/* <div className="logo-image">DRIVING ENERGY TRANSITION, Powered by  Kites</div> */}
           <TextType 
-                text={[item.fields.heroText, "Æther Swiss Kite."]}
+                text={[item.fields.heroText || "", "Æther Swiss Kite."]}
                 typingSpeed={40}
                 pauseDuration={2500}
                 deletingSpeed={10}
@@ -102,6 +215,7 @@ const HomePage: React.FC = () => {
   }
   return null;
 })}
+      <ScrollPath color="rgba(135, 206, 250, 0.2)" strokeWidth={1.5} pathComplexity={80} />
 <div style={{ height: '350px', position: 'relative' }}>
                 <ThreadsCanvas  />
             </div>
@@ -152,7 +266,7 @@ const HomePage: React.FC = () => {
             <Col sm={1}></Col>
                   <Col sm={10}>
                   <div className='kite-div'>
-                    <ScrollDrawSVG/>
+                    <ScrollDrawSVG isContentLoaded={isContentLoaded} />
                   </div>
                   <div className='kite-div-over'>
                   <NavComponent/>
@@ -160,7 +274,7 @@ const HomePage: React.FC = () => {
             </Col>
         </Row>
     </Container>
-    <Container className="roles-section border-1px py-5" fluid>
+    <Container className="roles-section py-5" fluid ref={rolesSectionRef}>
       
       
     
@@ -168,40 +282,42 @@ const HomePage: React.FC = () => {
 
 
   {/* Roles grid */}
-  <Row className="g-4 justify-content-center">
+  <Row className="g-4 g-md-5 justify-content-center">
     {data &&
       data
         .filter((item) => item.contentType === "roleTeams")
         .sort((a, b) => (a.fields.order || 0) - (b.fields.order || 0))
         .map((item, index) => (
-          <Col
-            key={index}
-            xs={12}
-            md={6}
-            lg={5}
-            className="border-1px  p-3"
-          > 
-            <Row className="align-items-center">
-              {/* Image column */}
-              <Col xs={12} sm={5} className="mb-3 mb-sm-0 text-center">
+              <Col
+                key={index}
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                xl={3}
+                className="role-card-col"
+              >
+            <div className="role-card">
+              {/* Image section */}
+              <div className="role-image-wrapper">
                 <Image
                   src={item.fields.roleImage}
                   alt={item.fields.roleTitle}
                   fluid
-                  className="shadow-sm"
+                  className="role-image"
                 />
-              </Col>
+              </div>
 
-              {/* Text column */}
-              <Col xs={12} sm={7}>
-                <h2 className="text-section-heading-sub-role mb-2">
+              {/* Text section */}
+              <div className="role-content">
+                <h2 className="role-title">
                   {item.fields.roleTitle}
                 </h2>
-                <div className="text-mono-body small">
+                <div className="role-description">
                   <ReactMarkdown>{item.fields.roleDescLong}</ReactMarkdown>
                 </div>
-              </Col>
-            </Row>
+              </div>
+            </div>
           </Col>
         ))}
   </Row>

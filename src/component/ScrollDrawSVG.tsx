@@ -1,40 +1,106 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 // import FullSystem from "./FullSystem";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ScrollDrawSVG: React.FC = () => {
+interface ScrollDrawSVGProps {
+  isContentLoaded?: boolean;
+}
+
+const ScrollDrawSVG: React.FC<ScrollDrawSVGProps> = ({ isContentLoaded = true }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const scrollTriggersRef = useRef<ScrollTrigger[]>([]);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    if (!svgRef.current) return;
-    const paths = svgRef.current.querySelectorAll("path");
+    if (!svgRef.current || !isContentLoaded) return;
 
-    paths.forEach((path) => {
-      const length = path.getTotalLength();
-      gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
-      gsap.to(path, {
-        strokeDashoffset: 2,
-        ease: "none",
-        scrollTrigger: {
-          trigger: svgRef.current,
-          start: "+=100 bottom",
-          end: "+=500 top",
-          scrub: true,
-        //   invalidateOnRefresh: true 
-        },
+    const initScrollTriggers = () => {
+      // Clean up existing ScrollTriggers
+      scrollTriggersRef.current.forEach((st) => st.kill());
+      scrollTriggersRef.current = [];
+
+      if (!svgRef.current) return;
+      const paths = svgRef.current.querySelectorAll("path");
+
+      if (paths.length === 0) {
+        // Retry after a short delay if paths aren't ready
+        setTimeout(() => {
+          if (svgRef.current) {
+            initScrollTriggers();
+          }
+        }, 200);
+        return;
+      }
+
+      paths.forEach((path) => {
+        const length = path.getTotalLength();
+        if (length === 0) return; // Skip paths with no length
+
+        gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+        
+        const scrollTrigger = gsap.to(path, {
+          strokeDashoffset: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: svgRef.current,
+            start: "top bottom",
+            end: "center+=150 center",
+            scrub: true,
+            invalidateOnRefresh: true,
+            refreshPriority: 1,
+          },
+        });
+
+        if (scrollTrigger.scrollTrigger) {
+          scrollTriggersRef.current.push(scrollTrigger.scrollTrigger);
+        }
       });
-    });
-     // Refresh ScrollTrigger after animations are created
+
+      // Refresh ScrollTrigger after all animations are created
+      ScrollTrigger.refresh();
+      setIsReady(true);
+    };
+
+    // Initialize after a small delay to ensure DOM is ready
+    const timeoutId = setTimeout(() => {
+      initScrollTriggers();
+    }, 200);
+
+    // Handle window resize
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup function
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener("resize", handleResize);
+      scrollTriggersRef.current.forEach((st) => st.kill());
+      scrollTriggersRef.current = [];
+    };
+  }, [svgRef, isContentLoaded]);
+
+  // Refresh when content loads
+  useEffect(() => {
+    if (isContentLoaded && isReady) {
+      // Delay refresh to ensure all content is rendered
+      const timeoutId = setTimeout(() => {
         ScrollTrigger.refresh();
-  }, [svgRef]);
+      }, 300);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [isContentLoaded, isReady]);
   
 
   return (
     <div className="flex justify-center py-40">
-              <svg ref={svgRef}  width="100%" height="100%" viewBox="0 0 4733 4602" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" xmlSpace="preserve" xmlns:serif="http://www.serif.com/" style={{ fillRule: "evenodd", clipRule: "evenodd", strokeLinecap: "round", strokeLinejoin: "round", strokeMiterlimit: "10" }}>
+              <svg ref={svgRef}  width="100%" height="100%" viewBox="0 0 4733 4602" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" xmlSpace="preserve" style={{ fillRule: "evenodd", clipRule: "evenodd", strokeLinecap: "round", strokeLinejoin: "round", strokeMiterlimit: "10" }}>
     <g id="Artboard1">
     </g>
     <g id="Artboard2">

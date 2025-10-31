@@ -4,20 +4,23 @@ import HomePage from './component/Homepage';
 import TeamPage from './component/TeamPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import JoinPartnerPage from './component/JoinPartnerPage';
-export default function App() {
-  
+import { LanguageProvider } from './context/LanguageContext';
 
-  return (<Router>
- <Routes>
-  <Route path="/" element={<HomePage />} />
-  {/* <Route path="/join-us" element={<JoinUsPage />} /> */}
-  <Route path="/team" element={<TeamPage />} />
-  <Route path="/join" element={<JoinPartnerPage />} />
-  
-  {/* <Route path="/blog" element={<BlogListPage />} /> */}
-  {/* <Route path="/blog/:slug" element={<BlogPostPage />} /> */}
-  {/* fallback / 404 */}
-</Routes>
-</Router>
+export default function App() {
+  return (
+    <LanguageProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          {/* <Route path="/join-us" element={<JoinUsPage />} /> */}
+          <Route path="/team" element={<TeamPage />} />
+          <Route path="/join" element={<JoinPartnerPage />} />
+          
+          {/* <Route path="/blog" element={<BlogListPage />} /> */}
+          {/* <Route path="/blog/:slug" element={<BlogPostPage />} /> */}
+          {/* fallback / 404 */}
+        </Routes>
+      </Router>
+    </LanguageProvider>
   );
 }

@@ -1,0 +1,44 @@
+/* Theme Configuration - All colors in one place */
+
+:root {
+  /* Primary Colors */
+  --theme-bg-primary: #1a2332; /* Deep blue background */
+  --theme-bg-secondary: rgba(26, 35, 50, 0.95); /* Dark blue with transparency */
+  
+  /* Text Colors */
+  --theme-text-primary: rgba(255, 255, 255, 0.95);
+  --theme-text-secondary: rgba(255, 255, 255, 0.8);
+  --theme-text-tertiary: rgba(255, 255, 255, 0.7);
+  
+  /* Border Colors */
+  --theme-border-primary: rgba(255, 255, 255, 0.3);
+  --theme-border-secondary: rgba(255, 255, 255, 0.15);
+  --theme-border-hover: rgba(255, 255, 255, 0.5);
+  
+  /* Accent Colors */
+  --theme-accent-link: rgba(255, 255, 255, 0.9);
+  --theme-accent-hover: rgba(255, 255, 255, 1);
+  
+  /* Override Bootstrap CSS Variables */
+  --bs-body-bg: var(--theme-bg-primary);
+  --bs-body-color: var(--theme-text-primary);
+  --bs-body-bg-rgb: 26, 35, 50;
+  --bs-body-color-rgb: 255, 255, 255;
+}
+
+/* Apply theme to root and body */
+:root {
+  background-color: var(--theme-bg-primary);
+  color: var(--theme-text-primary);
+}
+
+body {
+  background-color: var(--theme-bg-primary) !important;
+  color: var(--theme-text-primary);
+}
+
+/* Override Bootstrap's body background */
+body[style*="background"] {
+  background-color: var(--theme-bg-primary) !important;
+}
+

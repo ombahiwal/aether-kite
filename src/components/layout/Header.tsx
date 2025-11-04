@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import { useLanguage } from "../context/LanguageContext";
+import { useLanguage } from "../../context/LanguageContext";
 
 interface HeaderProps {
   isHome?: boolean;

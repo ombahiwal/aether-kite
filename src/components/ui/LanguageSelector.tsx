@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../../context/LanguageContext';
 
 const LanguageSelector: React.FC = () => {
   const { language, setLanguage } = useLanguage();
@@ -28,4 +28,5 @@ const LanguageSelector: React.FC = () => {
 };
 
 export default LanguageSelector;
+
 

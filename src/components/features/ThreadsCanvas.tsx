@@ -48,7 +48,8 @@ const ThreadsCanvas: React.FC<ThreadsProps> = ({
     };
 
     const clear = () => {
-      ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+      // Use CSS variable value for background - matches theme
+      ctx.fillStyle = "#1a2332"; // var(--theme-bg-primary)
       ctx.fillRect(0, 0, winWidth, winHeight);
     };
 
@@ -60,7 +61,8 @@ const ThreadsCanvas: React.FC<ThreadsProps> = ({
         const segments = lines[lineIndex];
 
         ctx.beginPath();
-        ctx.strokeStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 1)`;
+        // Use white/light color for lines to match blue background theme
+        ctx.strokeStyle = `rgba(255, 255, 255, 0.8)`;
 
         segments.forEach((point, index) => {
           const x = winWidth * point.x;
@@ -115,7 +117,19 @@ const ThreadsCanvas: React.FC<ThreadsProps> = ({
     };
   }, [color, userAmplitude]);
 
-  return <canvas ref={canvasRef} className=" top-0 left-0 w-full h-full" />;
+  return (
+    <canvas 
+      ref={canvasRef} 
+      className="top-0 left-0 w-full h-full"
+      style={{ 
+        width: '100%', 
+        height: '100%', 
+        display: 'block',
+        margin: 0,
+        padding: 0
+      }} 
+    />
+  );
 };
 
 export default ThreadsCanvas;

@@ -1,10 +1,12 @@
 // src/App.tsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './component/Homepage';
-import TeamPage from './component/TeamPage';
+import './styles/theme.css'; // Import theme before Bootstrap to override variables
 import 'bootstrap/dist/css/bootstrap.min.css';
-import JoinPartnerPage from './component/JoinPartnerPage';
+import HomePage from './components/pages/Homepage';
+import TeamPage from './components/pages/TeamPage';
+import JoinPartnerPage from './components/pages/JoinPartnerPage';
 import { LanguageProvider } from './context/LanguageContext';
+import './styles/App.css';
 
 export default function App() {
   return (

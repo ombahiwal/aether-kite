@@ -1,45 +1,86 @@
 import React, { useEffect, useState } from 'react';
 
 import { Container, Row, Col } from 'react-bootstrap';
-import { getContent} from '../api/cfclient';
-import { Image } from 'react-bootstrap';
-import NavComponent from './NavComponent';
-import ThreadsCanvas from './ThreadsCanvas';
-import Footer from "./Footer";
+import { getContent } from '../../api/contentful';
+import type { ContentItem } from '../../api/contentful';
+import { Image, Spinner } from 'react-bootstrap';
+import NavComponent from '../layout/NavComponent';
+import ThreadsCanvas from '../features/ThreadsCanvas';
+import Footer from "../layout/Footer";
+
+interface PartnerItem extends ContentItem {
+  fields: {
+    partnerName?: string;
+    partnerLogo?: string;
+    partnerCategory?: string;
+    order?: number;
+  };
+}
+
 const JoinPartnerPage: React.FC = () => {
-    const [data, setData] = useState<object[]>([]);
-      useEffect(() => {
-      getContent("info_section").then((data_resp: object[])  => {
-              setData(data_resp as object[]);
-              console.log("Data response:", data_resp);
-          });
-      console.log("Fetched data:", data);
+    const [data, setData] = useState<ContentItem[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+      setIsLoading(true);
+      setError(null);
+      getContent()
+        .then((data_resp: ContentItem[]) => {
+          setData(data_resp);
+          console.log("Data response:", data_resp);
+        })
+        .catch((error) => {
+          console.error("Error fetching partner data:", error);
+          setError("Failed to load partner data. Please try again later.");
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }, []); 
     
-    let groupPartnersByCategory = (data) => {
+    const groupPartnersByCategory = (data: ContentItem[]): Record<string, PartnerItem[]> => {
         console.log("Grouping partners from data:", data);
         if (!Array.isArray(data)) return {};
 
         // Filter only partners
-        const partners = data.filter(item => item.contentType === "partners");
+        const partners = data.filter((item): item is PartnerItem => item.contentType === "partners");
 
         // Group by partnerCategory
-        const grouped = partners.reduce((acc, partner) => {
+        const grouped = partners.reduce((acc: Record<string, PartnerItem[]>, partner: PartnerItem) => {
             const category = partner.fields.partnerCategory || "Uncategorized";
             if (!acc[category]) {
                 acc[category] = [];
             }
-                acc[category].push(partner);
+            acc[category].push(partner);
             return acc;
-        }, []);
+        }, {});
 
-        // Optional: sort partners within each category by order
+        // Sort partners within each category by order
         for (const category in grouped) {
             grouped[category].sort((a, b) => (a.fields.order || 0) - (b.fields.order || 0));
         }
     
         return grouped;
     };
+
+    if (isLoading) {
+      return (
+        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+          <Spinner animation="border" role="status" style={{ color: 'white', width: '3rem', height: '3rem' }}>
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      );
+    }
+
+    if (error) {
+      return (
+        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+          <p style={{ color: 'white' }}>{error}</p>
+        </div>
+      );
+    }
     return (<div> 
                 <div style={{ height: '300px', position: 'relative' }}>
                            <ThreadsCanvas color={[105,105,105]} amplitude={250} distance={20} numLines={8} />
@@ -62,7 +103,7 @@ const JoinPartnerPage: React.FC = () => {
                                 </Row>
                                 
                                 <Row className="">
-                                   {data && Object.entries(groupPartnersByCategory(data)).map(([category, partners]) => (
+                                   {data && Object.entries(groupPartnersByCategory(data)).map(([category, partners]: [string, PartnerItem[]]) => (
                                         <Container key={category} fluid className="partners-section mb-5">
                                             <Row className="align-items-center">
                                             <Col sm={2}>

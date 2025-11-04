@@ -1,17 +1,15 @@
 import React, { useRef } from 'react';
 import { Container, Col, Row, Image, Spinner} from 'react-bootstrap';
-import NavComponent from './NavComponent';
-import Header from './Header';
+import NavComponent from '../layout/NavComponent';
 import { useEffect, useState } from 'react';
-import { useLanguage } from '../context/LanguageContext';
-// @ts-ignore - cfclient.js doesn't have type definitions
-import { getContent} from '../api/cfclient';
+import { useLanguage } from '../../context/LanguageContext';
+import { getContent } from '../../api/contentful';
 import ReactMarkdown from "react-markdown";
-import ThreadsCanvas from './ThreadsCanvas';
-import Footer from "./Footer";
-import TextType from './TextType';
-import ScrollDrawSVG from './ScrollDrawSVG';
-import ScrollPath from './ScrollPath';
+import ThreadsCanvas from '../features/ThreadsCanvas';
+import Footer from "../layout/Footer";
+import TextType from '../ui/TextType';
+import ScrollDrawSVG from '../features/ScrollDrawSVG';
+import ScrollPath from '../features/ScrollPath';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -48,7 +46,7 @@ const HomePage: React.FC = () => {
       const fetchData = async () => {
         try {
           setIsLoading(true);
-          const dataResp = await getContent("info_section");
+          const dataResp = await getContent();
           setData(dataResp as ContentItem[]);
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -140,14 +138,14 @@ const HomePage: React.FC = () => {
     );
   }else{
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative', width: '100%', margin: 0, padding: 0 }}>
  {data && data.map((item, index: number) => {
   if (item.contentType === "hero") {
     const videoUrl = item.fields.heroVideo;
     const imageUrl = item.fields.heroImage;
 
     return (
-      <div key={index} className="hero-image position-relative overflow-hidden">
+      <div key={index} className="hero-image position-relative overflow-hidden" style={{ width: '100%', margin: 0, padding: 0 }}>
         {/* Background video */}
         {videoUrl ? (
           <video
@@ -216,7 +214,7 @@ const HomePage: React.FC = () => {
   return null;
 })}
       <ScrollPath color="rgba(135, 206, 250, 0.2)" strokeWidth={1.5} pathComplexity={80} />
-<div style={{ height: '350px', position: 'relative' }}>
+<div style={{ height: '350px', position: 'relative', width: '100%', margin: 0, padding: 0, overflow: 'hidden' }}>
                 <ThreadsCanvas  />
             </div>
   <Container fluid>

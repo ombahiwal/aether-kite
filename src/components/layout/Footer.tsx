@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useLanguage } from '../context/LanguageContext';
-import LanguageSelector from './LanguageSelector';
+import { useLanguage } from '../../context/LanguageContext';
+import LanguageSelector from '../ui/LanguageSelector';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();

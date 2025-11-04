@@ -1,48 +1,88 @@
 import React from 'react';
-import ThreadsCanvas from './ThreadsCanvas';
-import { Container, Row, Col, Nav } from 'react-bootstrap';
+import ThreadsCanvas from '../features/ThreadsCanvas';
+import { Container, Row, Col } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
-import { getContent} from '../api/cfclient';
-import { Image } from 'react-bootstrap';
+import { getContent } from '../../api/contentful';
+import type { ContentItem } from '../../api/contentful';
+import { Image, Spinner } from 'react-bootstrap';
 import ReactMarkdown from "react-markdown";
-import Footer from "./Footer";
-import NavComponent from './NavComponent';
-const TeamPage: React.FC = () => {
+import Footer from "../layout/Footer";
+import NavComponent from '../layout/NavComponent';
 
-    const [data, setData] = useState<object[]>([]);
-      useEffect(() => {
-      getContent("info_section").then((data_resp: object[])  => {
-              setData(data_resp as object[]);
-              console.log("Data response:", data_resp);
-          });
-      console.log("Fetched data:", data);
+interface TeamItem extends ContentItem {
+  fields: {
+    teamMemberName?: string;
+    teamMemberImage?: string;
+    teamMemberTitle?: string;
+    teamCategory?: string;
+    order?: number;
+  };
+}
+
+const TeamPage: React.FC = () => {
+    const [data, setData] = useState<ContentItem[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+      setIsLoading(true);
+      setError(null);
+      getContent()
+        .then((data_resp: ContentItem[]) => {
+          setData(data_resp);
+          console.log("Data response:", data_resp);
+        })
+        .catch((error) => {
+          console.error("Error fetching team data:", error);
+          setError("Failed to load team data. Please try again later.");
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }, []);
 
-
-    let groupTeamsByCategory = (data) => {
+    const groupTeamsByCategory = (data: ContentItem[]): Record<string, TeamItem[]> => {
         console.log("Grouping teams from data:", data);
         if (!Array.isArray(data)) return {};
 
-        // Filter only partners
-        const teams = data.filter(item => item.contentType === "teams");
+        // Filter only teams
+        const teams = data.filter((item): item is TeamItem => item.contentType === "teams");
 
-        // Group by partnerCategory
-        const grouped = teams.reduce((acc, team) => {
+        // Group by teamCategory
+        const grouped = teams.reduce((acc: Record<string, TeamItem[]>, team: TeamItem) => {
             const category = team.fields.teamCategory || "Uncategorized";
             if (!acc[category]) {
                 acc[category] = [];
             }
-                acc[category].push(team);
+            acc[category].push(team);
             return acc;
-        }, []);
+        }, {});
 
-        // Optional: sort partners within each category by order
+        // Sort teams within each category by order
         for (const category in grouped) {
             grouped[category].sort((a, b) => (a.fields.order || 0) - (b.fields.order || 0));
         }
         console.log("Grouped teams:", grouped);
         return grouped;
     };
+
+    if (isLoading) {
+      return (
+        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+          <Spinner animation="border" role="status" style={{ color: 'white', width: '3rem', height: '3rem' }}>
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      );
+    }
+
+    if (error) {
+      return (
+        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+          <p style={{ color: 'white' }}>{error}</p>
+        </div>
+      );
+    }
 
   return (<div>
     <div style={{ height: '300px', position: 'relative' }}>
@@ -64,7 +104,7 @@ const TeamPage: React.FC = () => {
       </Row>
 </Container>
 
-        {data && Object.entries(groupTeamsByCategory(data)).map(([category, teams]) => (
+        {data && Object.entries(groupTeamsByCategory(data)).map(([category, teams]: [string, TeamItem[]]) => (
                         <Container key={category} fluid className="partners-section mb-5">
                           <Row>
                             <Col sm={1}></Col>

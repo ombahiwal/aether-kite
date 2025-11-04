@@ -2,7 +2,7 @@
 
 :root {
   /* Primary Colors */
-  --theme-bg-primary: #1a2332; /* Deep blue background */
+  --theme-bg-primary:   #1a2332; /* Deep blue background rgba(0,99,151,0.95);*/
   --theme-bg-secondary: rgba(26, 35, 50, 0.95); /* Dark blue with transparency */
   
   /* Text Colors */

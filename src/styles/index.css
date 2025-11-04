@@ -401,12 +401,16 @@ button:focus-visible {
   padding: 3rem 2rem;
   margin: 0;
   min-height: 200px;
+  position: relative;
+  z-index: 1;
 }
 
 /* Role Cards Styles */
 .role-card-col {
   display: flex;
   justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 
 .role-card {
@@ -417,7 +421,9 @@ button:focus-visible {
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   height: 100%;
-  border: 1px solid var(--theme-border-primary);
+  position: relative;
+  z-index: 1;
+  border: 2px solid var(--theme-border-primary);
   padding: 1rem;
   position: relative;
 }
@@ -615,8 +621,9 @@ button:focus-visible {
   /* display: flex; */
   /* align-items: right; */
   margin-bottom: -200px;
-  z-index: 1;
+  z-index: 0;
   opacity: 0.9;
+  position: relative;
 }
 .kite-div-over{
   position: relative;
@@ -648,7 +655,7 @@ button:focus-visible {
   height: 100vh;
   left: -174%;
   width: 250%;
-  z-index: 1;
+  z-index: 0;
   opacity: 0.9;
  
 }
@@ -1113,12 +1120,12 @@ button:focus-visible {
   width: 24px;
   height: 24px;
   object-fit: contain;
-  filter: brightness(1) invert(0);
+  filter: brightness(0) invert(1); /* Make icons white */
   transition: filter 0.3s ease;
 }
 
 .footer-social-link:hover .footer-social-icon {
-  filter: brightness(1) invert(0) opacity(0.9);
+  filter: brightness(0) invert(1); /* Keep white on hover */
 }
 
 /* Footer Bottom */
@@ -1211,6 +1218,7 @@ button:focus-visible {
   }
 
   .footer-social-icon {
+    filter: brightness(0) invert(1); /* Keep icons white on mobile */
     width: 20px;
     height: 20px;
   }
@@ -1256,7 +1264,7 @@ button:focus-visible {
   font-family: 'KlarheitGroteskMono', monospace;
   font-size: 0.75rem;
   font-weight: 600;
-  color: rgba(0, 0, 0, 0.8);
+  color: white;
   transition: all 0.3s ease;
   min-width: 36px;
   text-align: center;
@@ -1265,12 +1273,12 @@ button:focus-visible {
 .language-button:hover {
   border-color: rgba(0, 0, 0, 0.4);
   background: rgba(255, 255, 255, 0.1);
-  color: rgba(0, 0, 0, 1);
+  color: lightcoral;
 }
 
 .language-button.active {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(0, 0, 0, 1);
-  color: rgba(0, 0, 0, 1);
+  color: lightcoral;
   font-weight: 700;
 }

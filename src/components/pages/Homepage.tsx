@@ -263,11 +263,13 @@ const HomePage: React.FC = () => {
        <Row className="mb-6">
             <Col sm={1}></Col>
                   <Col sm={10}>
-                  <div className='kite-div'>
-                    <ScrollDrawSVG isContentLoaded={isContentLoaded} />
-                  </div>
-                  <div className='kite-div-over'>
-                  <NavComponent/>
+                  <div style={{ position: 'relative', width: '100%', minHeight: '100%' }}>
+                    <div className='kite-div'>
+                      <ScrollDrawSVG isContentLoaded={isContentLoaded} />
+                    </div>
+                    <div className='kite-div-over'>
+                      <NavComponent/>
+                    </div>
                   </div>
             </Col>
         </Row>

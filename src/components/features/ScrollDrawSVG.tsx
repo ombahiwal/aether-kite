@@ -99,7 +99,7 @@ const ScrollDrawSVG: React.FC<ScrollDrawSVGProps> = ({ isContentLoaded = true })
   
 
   return (
-    <div className="flex justify-center py-40" style={{ position: 'relative', zIndex: 0 }}>
+    <div className="flex justify-center pb-40 pt-0" style={{ position: 'relative', zIndex: 0 }}>
          <svg ref={svgRef} width="1736" height="1708" viewBox="0 0 1736 1708" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ position: 'relative', zIndex: 0 }}>
 <g clip-path="url(#clip0_4070_18)">
 <path d="M299.268 1690.03L56.7297 1548.34V1539.21" stroke="white" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>

@@ -933,7 +933,8 @@ button:focus-visible {
 
 .nav-active-link {
   font-weight: bold;
-  border: #1a1a1a solid 2px;
+  border: 2px solid var(--theme-border-hover);
+  color: var(--theme-accent-hover);
 }
 
 .large-link{

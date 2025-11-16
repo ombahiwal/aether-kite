@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { Container, Col, Row, Image, Spinner} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import NavComponent from '../layout/NavComponent';
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
@@ -19,6 +20,7 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 
 interface ContentItem {
+  id: string;
   contentType: string;
   fields: {
     [key: string]: any;
@@ -297,27 +299,32 @@ const HomePage: React.FC = () => {
                 xl={3}
                 className="role-card-col"
               >
-            <div className="role-card">
-              {/* Image section */}
-              <div className="role-image-wrapper">
-                <Image
-                  src={item.fields.roleImage}
-                  alt={item.fields.roleTitle}
-                  fluid
-                  className="role-image"
-                />
-              </div>
+            <Link 
+              to={`/role/${item.id}`} 
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              <div className="role-card" style={{ cursor: 'pointer' }}>
+                {/* Image section */}
+                <div className="role-image-wrapper">
+                  <Image
+                    src={item.fields.roleImage}
+                    alt={item.fields.roleTitle}
+                    fluid
+                    className="role-image"
+                  />
+                </div>
 
-              {/* Text section */}
-              <div className="role-content">
-                <h2 className="role-title">
-                  {item.fields.roleTitle}
-                </h2>
-                <div className="role-description">
-                  <ReactMarkdown>{item.fields.roleDescLong}</ReactMarkdown>
+                {/* Text section */}
+                <div className="role-content">
+                  <h2 className="role-title">
+                    {item.fields.roleTitle}
+                  </h2>
+                  <div className="role-description">
+                    <ReactMarkdown>{item.fields.roleDescLong}</ReactMarkdown>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           </Col>
         ))}
   </Row>

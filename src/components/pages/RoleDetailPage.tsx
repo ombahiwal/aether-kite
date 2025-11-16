@@ -14,7 +14,7 @@ interface RoleItem {
   contentType: string;
   fields: {
     roleTitle?: string;
-    roleDescLong?: any; // Rich text document
+    description?: any; // Rich text document
     roleImage?: string;
     order?: number;
   };
@@ -182,7 +182,7 @@ const RoleDetailPage: React.FC = () => {
     );
   }
 
-  const { roleTitle, roleDescLong, roleImage } = role.fields;
+  const { roleTitle, description, roleImage } = role.fields;
 
   return (
     <div className="role-detail-page">
@@ -214,10 +214,10 @@ const RoleDetailPage: React.FC = () => {
 
               {/* Role Description Body */}
               <div className="role-body">
-                {roleDescLong && typeof roleDescLong === 'object' && roleDescLong.nodeType ? (
-                  documentToReactComponents(roleDescLong, options)
+                {description && typeof description === 'object' && description.nodeType ? (
+                  documentToReactComponents(description, options)
                 ) : (
-                  <p>{roleDescLong}</p>
+                  <p>{description}</p>
                 )}
               </div>
 

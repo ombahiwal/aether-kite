@@ -23,7 +23,17 @@ export interface ContentItem {
 // Also export as type for better compatibility
 export type { ContentItem as ContentItemType };
 
-export const getContent = async (contentType?: string): Promise<ContentItem[]> => {
+// Locale mapping helper
+export const getContentfulLocale = (lang: string): string => {
+  const localeMap: { [key: string]: string } = {
+    'en': 'en-US',
+    'fr': 'fr-CH',
+    'de': 'de-CH',
+  };
+  return localeMap[lang] || 'en-US';
+};
+
+export const getContent = async (contentType?: string, locale?: string): Promise<ContentItem[]> => {
   try {
     const params: Record<string, any> = {
       access_token: ACCESS_TOKEN,
@@ -33,10 +43,20 @@ export const getContent = async (contentType?: string): Promise<ContentItem[]> =
     if (contentType) {
       params.content_type = contentType;
     }
+
+    // Only add locale if it's provided, otherwise use Contentful's default
+    if (locale) {
+      params.locale = locale;
+    }
+    
+    console.log('Fetching Contentful with params:', params);
     
     const response = await axios.get(`${BASE_URL}/entries`, {
       params,
     });
+
+    console.log('Contentful response locale:', response.data.items[0]?.sys?.locale);
+    console.log('Sample entry fields:', response.data.items[0]?.fields);
 
     const assetsMap: Record<string, string | null> = {};
     (response.data.includes?.Asset || []).forEach((asset: any) => {
@@ -74,7 +94,13 @@ export const getContent = async (contentType?: string): Promise<ContentItem[]> =
 
     console.log("Resolved & sorted Contentful data:", sortedResult);
     return sortedResult;
-  } catch (error) {
+  } catch (error: any) {
+    // If locale request fails (400), try again without locale (fallback to default)
+    if (error?.response?.status === 400 && locale) {
+      console.warn(`Locale '${locale}' not available in Contentful, falling back to default locale`);
+      return getContent(contentType); // Retry without locale
+    }
+    
     console.error("Error fetching from Contentful:", error);
     return [];
   }

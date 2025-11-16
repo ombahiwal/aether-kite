@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 import { Container, Row, Col } from 'react-bootstrap';
-import { getContent } from '../../api/contentful';
+import { getContent, getContentfulLocale } from '../../api/contentful';
 import type { ContentItem } from '../../api/contentful';
 import { Image, Spinner } from 'react-bootstrap';
 import NavComponent from '../layout/NavComponent';
 import ThreadsCanvas from '../features/ThreadsCanvas';
 import Footer from "../layout/Footer";
+import { useLanguage } from '../../context/LanguageContext';
 
 interface PartnerItem extends ContentItem {
   fields: {
@@ -18,6 +19,7 @@ interface PartnerItem extends ContentItem {
 }
 
 const JoinPartnerPage: React.FC = () => {
+    const { language } = useLanguage();
     const [data, setData] = useState<ContentItem[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -25,7 +27,8 @@ const JoinPartnerPage: React.FC = () => {
     useEffect(() => {
       setIsLoading(true);
       setError(null);
-      getContent()
+      const locale = getContentfulLocale(language);
+      getContent(undefined, locale)
         .then((data_resp: ContentItem[]) => {
           setData(data_resp);
           console.log("Data response:", data_resp);
@@ -37,7 +40,7 @@ const JoinPartnerPage: React.FC = () => {
         .finally(() => {
           setIsLoading(false);
         });
-    }, []); 
+    }, [language]); 
     
     const groupPartnersByCategory = (data: ContentItem[]): Record<string, PartnerItem[]> => {
         console.log("Grouping partners from data:", data);

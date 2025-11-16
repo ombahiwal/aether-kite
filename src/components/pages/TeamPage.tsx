@@ -2,12 +2,13 @@ import React from 'react';
 import ThreadsCanvas from '../features/ThreadsCanvas';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
-import { getContent } from '../../api/contentful';
+import { getContent, getContentfulLocale } from '../../api/contentful';
 import type { ContentItem } from '../../api/contentful';
 import { Image, Spinner } from 'react-bootstrap';
 import ReactMarkdown from "react-markdown";
 import Footer from "../layout/Footer";
 import NavComponent from '../layout/NavComponent';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface TeamItem extends ContentItem {
   fields: {

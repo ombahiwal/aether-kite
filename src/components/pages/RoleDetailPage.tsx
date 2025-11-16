@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Container, Button, Spinner, Image, Row, Col } from "react-bootstrap";
-import { getContent } from "../../api/contentful";
+import { getContent, getContentfulLocale } from "../../api/contentful";
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES, MARKS } from "@contentful/rich-text-types";
 import { useLanguage } from '../../context/LanguageContext';
@@ -21,7 +21,7 @@ interface RoleItem {
 }
 
 const RoleDetailPage: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [role, setRole] = useState<RoleItem | null>(null);
@@ -138,7 +138,8 @@ const RoleDetailPage: React.FC = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const data = await getContent();
+        const locale = getContentfulLocale(language);
+        const data = await getContent(undefined, locale);
         
         // Find the role by matching the ID from URL params
         const foundRole = data.find(
@@ -159,7 +160,7 @@ const RoleDetailPage: React.FC = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, language]);
 
   if (loading) {
     return (

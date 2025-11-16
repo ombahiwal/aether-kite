@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import NavComponent from '../layout/NavComponent';
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
-import { getContent } from '../../api/contentful';
+import { getContent, getContentfulLocale } from '../../api/contentful';
 import ReactMarkdown from "react-markdown";
 import ThreadsCanvas from '../features/ThreadsCanvas';
 import Footer from "../layout/Footer";
@@ -38,7 +38,7 @@ interface ContentItem {
 }
 
 const HomePage: React.FC = () => {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const [data, setData] = useState<ContentItem[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isContentLoaded, setIsContentLoaded] = useState<boolean>(false);
@@ -48,7 +48,8 @@ const HomePage: React.FC = () => {
       const fetchData = async () => {
         try {
           setIsLoading(true);
-          const dataResp = await getContent();
+          const locale = getContentfulLocale(language);
+          const dataResp = await getContent(undefined, locale);
           setData(dataResp as ContentItem[]);
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -57,7 +58,7 @@ const HomePage: React.FC = () => {
         }
       };
       fetchData();
-    }, []);
+    }, [language]);
 
     // Wait for images and content to load
     useEffect(() => {

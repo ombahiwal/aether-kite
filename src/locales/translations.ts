@@ -4,6 +4,7 @@ const translations = {
       home: 'HOME',
       team: 'THE TEAM',
       join: 'JOIN',
+      news: 'NEWS',
       getInTouch: 'GET IN TOUCH',
     },
     footer: {
@@ -11,6 +12,7 @@ const translations = {
       home: 'Home',
       theTeam: 'The Team',
       join: 'Join',
+      news: 'News',
       getInTouch: 'Get in Touch',
       heading: 'Get in Touch',
       description: 'Interested in joining the team or want to learn more about our project?',
@@ -21,12 +23,24 @@ const translations = {
     common: {
       loading: 'Loading...',
     },
+    newsPage: {
+      kicker: 'News',
+      title: 'Newsroom',
+      subtitle: 'Stories, announcements, and field notes from Æther Swiss Kite.',
+      readMore: 'Read story',
+      instagramLabel: 'Instagram highlight',
+      publishedOn: 'Published on',
+      error: 'Unable to load news right now. Please try again later.',
+      empty: 'No news articles yet. Check back soon.',
+      back: 'Back to news',
+    },
   },
   fr: {
     nav: {
       home: 'ACCUEIL',
       team: 'L\'ÉQUIPE',
       join: 'REJOINDRE',
+      news: 'ACTUALITÉS',
       getInTouch: 'NOUS CONTACTER',
     },
     footer: {
@@ -34,6 +48,7 @@ const translations = {
       home: 'Accueil',
       theTeam: 'L\'Équipe',
       join: 'Rejoindre',
+      news: 'Actualités',
       getInTouch: 'Nous Contacter',
       heading: 'Nous Contacter',
       description: 'Intéressé à rejoindre l\'équipe ou souhaitez en savoir plus sur notre projet ?',
@@ -44,12 +59,24 @@ const translations = {
     common: {
       loading: 'Chargement...',
     },
+    newsPage: {
+      kicker: 'Actualités',
+      title: 'Salle de presse',
+      subtitle: 'Histoires, annonces et notes de terrain d’Æther Swiss Kite.',
+      readMore: 'Lire l’article',
+      instagramLabel: 'Mise en avant Instagram',
+      publishedOn: 'Publié le',
+      error: 'Impossible de charger les actualités pour le moment. Veuillez réessayer plus tard.',
+      empty: 'Aucun article pour le moment. Revenez bientôt.',
+      back: 'Retour aux actualités',
+    },
   },
   de: {
     nav: {
       home: 'STARTSEITE',
       team: 'DAS TEAM',
       join: 'BEITRETEN',
+      news: 'NEWS',
       getInTouch: 'KONTAKT',
     },
     footer: {
@@ -57,6 +84,7 @@ const translations = {
       home: 'Startseite',
       theTeam: 'Das Team',
       join: 'Beitreten',
+      news: 'News',
       getInTouch: 'Kontakt',
       heading: 'Kontakt',
       description: 'Interessiert, dem Team beizutreten oder mehr über unser Projekt erfahren?',
@@ -66,6 +94,17 @@ const translations = {
     },
     common: {
       loading: 'Lädt...',
+    },
+    newsPage: {
+      kicker: 'News',
+      title: 'Newsroom',
+      subtitle: 'Geschichten, Ankündigungen und Feldnotizen von Æther Swiss Kite.',
+      readMore: 'Artikel lesen',
+      instagramLabel: 'Instagram Highlight',
+      publishedOn: 'Veröffentlicht am',
+      error: 'News können gerade nicht geladen werden. Bitte versuche es später erneut.',
+      empty: 'Noch keine News. Schau bald wieder vorbei.',
+      back: 'Zurück zu den News',
     },
   },
 };

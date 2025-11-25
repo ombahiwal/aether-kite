@@ -6,11 +6,22 @@ interface NavProps {
   className?: string;
 }
 
+interface NavLinkItem {
+  href: string;
+  label: string;
+  isActive?: (path: string) => boolean;
+}
+
 const Nav: React.FC<NavProps> = ({ className = "" }) => {
   const location = useLocation();
   const { t } = useLanguage();
   
-  const links = [
+  const links: NavLinkItem[] = [
+    {
+      href: "/news",
+      label: t("nav.news"),
+      isActive: (path) => path === "/news" || path.startsWith("/news/"),
+    },
     { href: "/join", label: t("nav.join") },
     { href: "/team", label: t("nav.team") },
     { href: "/#contact", label: t("nav.getInTouch") },
@@ -19,7 +30,9 @@ const Nav: React.FC<NavProps> = ({ className = "" }) => {
   return (
   <nav className={`nav-comp ${className}`}>
       {links.map((link) => {
-        const isActive = location.pathname === link.href;
+        const isActive = link.isActive
+          ? link.isActive(location.pathname)
+          : location.pathname === link.href;
         return (
           <p key={link.href} className="text-left text-section-heading">
             <Link

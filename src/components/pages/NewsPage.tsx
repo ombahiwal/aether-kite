@@ -11,11 +11,14 @@ import '../../styles/news.css';
 
 const NEWS_CONTENT_TYPE = 'newsPost';
 
+const ITEMS_PER_PAGE = 10;
+
 const NewsPage: React.FC = () => {
   const { t, language } = useLanguage();
   const [newsItems, setNewsItems] = useState<NormalizedNewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -29,6 +32,7 @@ const NewsPage: React.FC = () => {
           .map(normalizeNewsItem);
 
         setNewsItems(normalized);
+        setCurrentPage(1);
       } catch (err) {
         console.error('Error loading news entries:', err);
         setError(t('newsPage.error'));
@@ -48,6 +52,29 @@ const NewsPage: React.FC = () => {
     });
   }, [newsItems]);
 
+  const articleNews = useMemo(
+    () => sortedNews.filter((item) => !item.instagramEmbedUrl),
+    [sortedNews]
+  );
+
+  const instagramHighlights = useMemo(
+    () => sortedNews.filter((item) => item.instagramEmbedUrl),
+    [sortedNews]
+  );
+
+  const totalPages = Math.ceil(articleNews.length / ITEMS_PER_PAGE);
+
+  useEffect(() => {
+    if (totalPages > 0 && currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [totalPages, currentPage]);
+
+  const paginatedNews = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return articleNews.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [articleNews, currentPage]);
+
   const renderBody = () => {
     if (isLoading) {
       return (
@@ -61,13 +88,13 @@ const NewsPage: React.FC = () => {
       return <p className="news-error">{error}</p>;
     }
 
-    if (!sortedNews.length) {
+    if (!articleNews.length) {
       return <p className="news-empty">{t('newsPage.empty')}</p>;
     }
 
     return (
       <Row className="g-4">
-        {sortedNews.map((item) => (
+        {paginatedNews.map((item) => (
           <Col key={item.id} xs={12} md={6} lg={4}>
             <article className="news-card">
               <div className="news-card-media">
@@ -106,7 +133,49 @@ const NewsPage: React.FC = () => {
       </section>
       <Container className="news-content">
         {renderBody()}
+
+        {totalPages > 1 && (
+          <div className="news-pagination">
+            <button
+              type="button"
+              className="news-pagination-button"
+              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+              disabled={currentPage === 1}
+            >
+              {t('newsPage.paginationPrevious')}
+            </button>
+            <span className="news-pagination-status">
+              {`${t('newsPage.paginationLabel')} ${currentPage} ${t('newsPage.paginationSeparator')} ${totalPages}`}
+            </span>
+            <button
+              type="button"
+              className="news-pagination-button"
+              onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+              disabled={currentPage === totalPages}
+            >
+              {t('newsPage.paginationNext')}
+            </button>
+          </div>
+        )}
       </Container>
+
+      {instagramHighlights.length > 0 && (
+        <section className="news-instagram-section">
+          <Container>
+            <p className="news-instagram-kicker">{t('newsPage.instagramLabel')}</p>
+            <h2 className="news-instagram-title">{t('newsPage.instagramSectionTitle')}</h2>
+            <p className="news-instagram-subtitle">{t('newsPage.instagramSectionSubtitle')}</p>
+            <div className="instagram-scroll-container">
+              {instagramHighlights.map((item) => (
+                <div className="instagram-scroll-card" key={`instagram-${item.id}`}>
+                  <InstagramEmbed url={item.instagramEmbedUrl!} title={item.title} />
+                  <p className="instagram-scroll-caption">{item.title}</p>
+                </div>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
       <Footer />
     </div>
   );

@@ -14,7 +14,7 @@ interface PartnerItem extends ContentItem {
     partnerName?: string;
     partnerLogo?: string;
     partnerCategory?: string;
-    order?: number;
+    order?: number | string;
   };
 }
 
@@ -60,8 +60,13 @@ const JoinPartnerPage: React.FC = () => {
         }, {});
 
         // Sort partners within each category by order
+        const toNumber = (value?: number | string | null) => {
+          const parsed = Number(value);
+          return Number.isFinite(parsed) ? parsed : Number.MAX_SAFE_INTEGER;
+        };
+
         for (const category in grouped) {
-            grouped[category].sort((a, b) => (a.fields.order || 0) - (b.fields.order || 0));
+            grouped[category].sort((a, b) => toNumber(a.fields.order) - toNumber(b.fields.order));
         }
     
         return grouped;

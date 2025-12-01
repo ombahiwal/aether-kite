@@ -16,7 +16,9 @@ interface TeamItem extends ContentItem {
     teamMemberImage?: string;
     teamMemberTitle?: string;
     teamCategory?: string;
-    order?: number;
+    order?: number | string;
+    teamOrder?: number | string;
+    teamSubOrder?: number | string;
   };
 }
 
@@ -60,8 +62,22 @@ const TeamPage: React.FC = () => {
         }, {});
 
         // Sort teams within each category by order
+        const toNumber = (value?: number | string | null) => {
+          const parsed = Number(value);
+          return Number.isFinite(parsed) ? parsed : Number.MAX_SAFE_INTEGER;
+        };
+
         for (const category in grouped) {
-            grouped[category].sort((a, b) => (a.fields.order || 0) - (b.fields.order || 0));
+            grouped[category].sort((a, b) => {
+              const primaryA = toNumber(a.fields.teamOrder ?? a.fields.order);
+              const primaryB = toNumber(b.fields.teamOrder ?? b.fields.order);
+              if (primaryA !== primaryB) {
+                return primaryA - primaryB;
+              }
+              const secondaryA = toNumber(a.fields.teamSubOrder);
+              const secondaryB = toNumber(b.fields.teamSubOrder);
+              return secondaryA - secondaryB;
+            });
         }
         console.log("Grouped teams:", grouped);
         return grouped;

@@ -8,6 +8,8 @@ import JoinPartnerPage from './components/pages/JoinPartnerPage';
 import RoleDetailPage from './components/pages/RoleDetailPage';
 import NewsPage from './components/pages/NewsPage';
 import NewsDetailPage from './components/pages/NewsDetailPage';
+import EventsPage from './components/pages/EventsPage';
+import EventDetailPage from './components/pages/EventDetailPage';
 import { LanguageProvider } from './context/LanguageContext';
 import './styles/App.css';
 
@@ -19,6 +21,8 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           {/* <Route path="/join-us" element={<JoinUsPage />} /> */}
           <Route path="/team" element={<TeamPage />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/events/:id" element={<EventDetailPage />} />
           <Route path="/join" element={<JoinPartnerPage />} />
           <Route path="/role/:id" element={<RoleDetailPage />} />
           <Route path="/news" element={<NewsPage />} />

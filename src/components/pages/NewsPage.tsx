@@ -7,6 +7,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { getContent, getContentfulLocale, type ContentItem } from '../../api/contentful';
 import { normalizeNewsItem, type NormalizedNewsItem } from '../../utils/news';
 import InstagramEmbed from '../features/InstagramEmbed';
+import ThreadsCanvas from '../features/ThreadsCanvas';
 import '../../styles/news.css';
 
 const NEWS_CONTENT_TYPE = 'newsPost';
@@ -123,15 +124,33 @@ const NewsPage: React.FC = () => {
 
   return (
     <div className="news-page">
-      <NavComponent className="mb-4" />
+      <div style={{ height: '300px', position: 'relative' }}>
+        <ThreadsCanvas />
+      </div>
+      <Container fluid>
+        <Row>
+          <Col sm={1}></Col>
+          <Col sm={10}>
+            <NavComponent className="mb-4" />
+          </Col>
+        </Row>
+      </Container>
       <section className="news-hero">
-        <Container>
-          <p className="news-hero-kicker">{t('newsPage.kicker')}</p>
-          <h1 className="news-hero-title">{t('newsPage.title')}</h1>
-          <p className="news-hero-copy">{t('newsPage.subtitle')}</p>
+        <Container fluid>
+          <Row>
+            <Col sm={1}></Col>
+            <Col sm={10}>
+              <p className="news-hero-kicker">{t('newsPage.kicker')}</p>
+              <h1 className="news-hero-title">{t('newsPage.title')}</h1>
+              <p className="news-hero-copy">{t('newsPage.subtitle')}</p>
+            </Col>
+          </Row>
         </Container>
       </section>
-      <Container className="news-content">
+      <Container fluid className="news-content">
+        <Row>
+          <Col sm={1}></Col>
+          <Col sm={10}>
         {renderBody()}
 
         {totalPages > 1 && (
@@ -157,22 +176,29 @@ const NewsPage: React.FC = () => {
             </button>
           </div>
         )}
+          </Col>
+        </Row>
       </Container>
 
       {instagramHighlights.length > 0 && (
         <section className="news-instagram-section">
-          <Container>
-            <p className="news-instagram-kicker">{t('newsPage.instagramLabel')}</p>
-            <h2 className="news-instagram-title">{t('newsPage.instagramSectionTitle')}</h2>
-            <p className="news-instagram-subtitle">{t('newsPage.instagramSectionSubtitle')}</p>
-            <div className="instagram-scroll-container">
-              {instagramHighlights.map((item) => (
-                <div className="instagram-scroll-card" key={`instagram-${item.id}`}>
-                  <InstagramEmbed url={item.instagramEmbedUrl!} title={item.title} />
-                  <p className="instagram-scroll-caption">{item.title}</p>
+          <Container fluid>
+            <Row>
+              <Col sm={1}></Col>
+              <Col sm={10}>
+                <p className="news-instagram-kicker">{t('newsPage.instagramLabel')}</p>
+                <h2 className="news-instagram-title">{t('newsPage.instagramSectionTitle')}</h2>
+                <p className="news-instagram-subtitle">{t('newsPage.instagramSectionSubtitle')}</p>
+                <div className="instagram-scroll-container">
+                  {instagramHighlights.map((item) => (
+                    <div className="instagram-scroll-card" key={`instagram-${item.id}`}>
+                      <InstagramEmbed url={item.instagramEmbedUrl!} title={item.title} />
+                      <p className="instagram-scroll-caption">{item.title}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </Col>
+            </Row>
           </Container>
         </section>
       )}

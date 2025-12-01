@@ -52,6 +52,7 @@ const Header: React.FC<HeaderProps> = ({ isHome = false }) => {
   const navLinks = [
     { href: "/", label: t("nav.home"), hash: "" },
     { href: "/team", label: t("nav.team"), hash: "" },
+    { href: "/events", label: t("nav.events"), hash: "" },
     { href: "/news", label: t("nav.news"), hash: "" },
     { href: "/join", label: t("nav.join"), hash: "" },
     { href: "/#contact", label: t("nav.getInTouch"), hash: "#contact" },

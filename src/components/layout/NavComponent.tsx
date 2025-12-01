@@ -17,14 +17,21 @@ const Nav: React.FC<NavProps> = ({ className = "" }) => {
   const { t } = useLanguage();
   
   const links: NavLinkItem[] = [
+    
     {
       href: "/news",
       label: t("nav.news"),
       isActive: (path) => path === "/news" || path.startsWith("/news/"),
     },
+    {
+      href: "/events",
+      label: t("nav.events"),
+      isActive: (path) => path === "/events" || path.startsWith("/events/"),
+    },
     { href: "/join", label: t("nav.join") },
     { href: "/team", label: t("nav.team") },
     { href: "/#contact", label: t("nav.getInTouch") },
+    
   ];
 
   return (

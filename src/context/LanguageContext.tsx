@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-type Language = 'en' | 'fr' | 'de';
+const SUPPORTED_LANGUAGES = ['en', 'fr'] as const;
+type Language = (typeof SUPPORTED_LANGUAGES)[number];
 
 interface LanguageContextType {
   language: Language;
@@ -27,17 +28,17 @@ import translations from '../locales/translations';
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
-    // Check localStorage first, then browser language
-    const savedLang = localStorage.getItem('language') as Language;
-    if (savedLang && ['en', 'fr', 'de'].includes(savedLang)) {
-      return savedLang;
+    const savedLang = localStorage.getItem('language');
+    if (savedLang && SUPPORTED_LANGUAGES.includes(savedLang as Language)) {
+      return savedLang as Language;
     }
-    // Check browser language
+
     const browserLang = navigator.language.split('-')[0];
-    if (['en', 'fr', 'de'].includes(browserLang)) {
+    if (SUPPORTED_LANGUAGES.includes(browserLang as Language)) {
       return browserLang as Language;
     }
-    return 'en'; // Default to English
+
+    return 'en';
   });
 
   // Translation function
@@ -66,6 +67,9 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   };
 
   const setLanguage = (lang: Language) => {
+    if (!SUPPORTED_LANGUAGES.includes(lang)) {
+      return;
+    }
     setLanguageState(lang);
     localStorage.setItem('language', lang);
     document.documentElement.setAttribute('lang', lang);

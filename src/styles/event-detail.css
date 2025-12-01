@@ -1,0 +1,111 @@
+.event-detail-page {
+  background-color: var(--theme-bg-primary);
+  color: var(--theme-text-primary);
+  min-height: 100vh;
+}
+
+.event-detail-container {
+  padding: 4rem 1rem 5rem;
+  max-width: 860px;
+}
+
+.event-detail-back {
+  text-decoration: none;
+  font-family: 'KlarheitGroteskMono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--theme-text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.event-detail-back:hover {
+  color: var(--theme-accent-hover);
+}
+
+.event-detail-hero {
+  border-bottom: 1px solid var(--theme-border-secondary);
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+}
+
+.event-detail-meta {
+  font-family: 'KlarheitGroteskMono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--theme-text-secondary);
+  font-size: 0.85rem;
+}
+
+.event-detail-title {
+  font-family: 'KlarheitGrotesk', sans-serif;
+  font-size: 3rem;
+  line-height: 1.1;
+  margin-top: 0.5rem;
+}
+
+.event-detail-summary {
+  font-family: 'KlarheitGrotesk', sans-serif;
+  color: var(--theme-text-secondary);
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+.event-detail-media {
+  width: 100%;
+  margin-bottom: 2.5rem;
+  border-radius: 1.2rem;
+  overflow: hidden;
+}
+
+.event-detail-media img {
+  width: 100%;
+  display: block;
+}
+
+.event-detail-body {
+  font-family: 'KlarheitGroteskMono', monospace;
+  color: var(--theme-text-secondary);
+  line-height: 1.8;
+}
+
+.event-detail-body h1,
+.event-detail-body h2,
+.event-detail-body h3,
+.event-detail-body h4,
+.event-detail-body h5,
+.event-detail-body h6 {
+  font-family: 'KlarheitGrotesk', sans-serif;
+  color: var(--theme-text-primary);
+  margin-top: 2rem;
+}
+
+.event-detail-body blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--theme-border-secondary);
+  font-style: italic;
+}
+
+.event-detail-body ul,
+.event-detail-body ol {
+  padding-left: 1.5rem;
+}
+
+.event-detail-embedded {
+  width: 100%;
+  border-radius: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .event-detail-container {
+    padding: 3rem 1rem 4rem;
+  }
+
+  .event-detail-title {
+    font-size: 2.25rem;
+  }
+}

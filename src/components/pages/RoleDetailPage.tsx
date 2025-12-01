@@ -7,6 +7,7 @@ import { BLOCKS, INLINES, MARKS } from "@contentful/rich-text-types";
 import { useLanguage } from '../../context/LanguageContext';
 import Footer from "../layout/Footer";
 import NavComponent from "../layout/NavComponent";
+import ThreadsCanvas from "../features/ThreadsCanvas";
 import "../../styles/roledetail.css";
 
 interface RoleItem {
@@ -187,6 +188,9 @@ const RoleDetailPage: React.FC = () => {
 
   return (
     <div className="role-detail-page">
+      <div style={{ height: '300px', position: 'relative' }}>
+        <ThreadsCanvas />
+      </div>
       <NavComponent />
       
       <div className="role-detail-content">

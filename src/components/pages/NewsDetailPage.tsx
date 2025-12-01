@@ -5,6 +5,7 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
 import NavComponent from '../layout/NavComponent';
 import Footer from '../layout/Footer';
+import ThreadsCanvas from '../features/ThreadsCanvas';
 import { useLanguage } from '../../context/LanguageContext';
 import { getContent, getContentfulLocale, type ContentItem } from '../../api/contentful';
 import { normalizeNewsItem, type NormalizedNewsItem } from '../../utils/news';
@@ -113,6 +114,9 @@ const NewsDetailPage: React.FC = () => {
 
   return (
     <div className="news-page">
+      <div style={{ height: '300px', position: 'relative' }}>
+        <ThreadsCanvas />
+      </div>
       <NavComponent className="mb-4" />
       <Container className="py-5">
         <Link to="/news" className="news-detail-back">← {t('newsPage.back')}</Link>

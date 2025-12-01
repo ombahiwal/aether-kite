@@ -7,7 +7,6 @@ const LanguageSelector: React.FC = () => {
   const languages = [
     { code: 'en' as const, label: 'EN' },
     { code: 'fr' as const, label: 'FR' },
-    { code: 'de' as const, label: 'DE' },
   ];
 
   return (

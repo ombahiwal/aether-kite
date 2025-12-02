@@ -10,10 +10,10 @@ interface ThreadsProps {
 }
 
 const ThreadsCanvas: React.FC<ThreadsProps> = ({
-  color = [105,105,105],
+  color = [105, 105, 105],
   numLines = 8,
-  distance =  30,
-  amplitude: userAmplitude = 350, 
+  distance = 30,
+  amplitude: userAmplitude = 350,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const noise = new Noise(Math.random());
@@ -26,7 +26,6 @@ const ThreadsCanvas: React.FC<ThreadsProps> = ({
 
     let winWidth = window.innerWidth;
     let winHeight = window.innerHeight;
-    let winMidX = winWidth * 0.5;
     let winMidY = winHeight * 0.5;
 
     let t = 0;
@@ -56,13 +55,14 @@ const ThreadsCanvas: React.FC<ThreadsProps> = ({
     const draw = () => {
       clear();
 
+      const spacing = distance / 1000;
       for (let lineIndex = 0; lineIndex < lines.length - 1; lineIndex++) {
-        const verticalModifier = lineIndex * 0.021;
+        const verticalModifier = lineIndex * spacing;
         const segments = lines[lineIndex];
 
         ctx.beginPath();
-        // Use white/light color for lines to match blue background theme
-        ctx.strokeStyle = `rgba(255, 255, 255, 0.8)`;
+        const [r, g, b] = color;
+        ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, 0.8)`;
 
         segments.forEach((point, index) => {
           const x = winWidth * point.x;
@@ -89,7 +89,6 @@ const ThreadsCanvas: React.FC<ThreadsProps> = ({
     const reset = () => {
       winWidth = window.innerWidth;
       winHeight = window.innerHeight;
-      winMidX = winWidth * 0.5;
       winMidY = winHeight * 0.5;
       canvas.width = winWidth;
       canvas.height = winHeight;
@@ -115,7 +114,7 @@ const ThreadsCanvas: React.FC<ThreadsProps> = ({
       window.removeEventListener("resize", reset);
       cancelAnimationFrame(rafId);
     };
-  }, [color, userAmplitude]);
+  }, [color, distance, numLines, userAmplitude]);
 
   return (
     <canvas 

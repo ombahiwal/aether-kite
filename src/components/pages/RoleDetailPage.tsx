@@ -36,17 +36,17 @@ const RoleDetailPage: React.FC = () => {
       [MARKS.CODE]: (text: React.ReactNode) => <code>{text}</code>,
     },
     renderNode: {
-      [BLOCKS.HEADING_1]: (node: any, children: React.ReactNode) => <h1>{children}</h1>,
-      [BLOCKS.HEADING_2]: (node: any, children: React.ReactNode) => <h2>{children}</h2>,
-      [BLOCKS.HEADING_3]: (node: any, children: React.ReactNode) => <h3>{children}</h3>,
-      [BLOCKS.HEADING_4]: (node: any, children: React.ReactNode) => <h4>{children}</h4>,
-      [BLOCKS.HEADING_5]: (node: any, children: React.ReactNode) => <h5>{children}</h5>,
-      [BLOCKS.HEADING_6]: (node: any, children: React.ReactNode) => <h6>{children}</h6>,
-      [BLOCKS.PARAGRAPH]: (node: any, children: React.ReactNode) => <p>{children}</p>,
-      [BLOCKS.UL_LIST]: (node: any, children: React.ReactNode) => <ul>{children}</ul>,
-      [BLOCKS.OL_LIST]: (node: any, children: React.ReactNode) => <ol>{children}</ol>,
-      [BLOCKS.LIST_ITEM]: (node: any, children: React.ReactNode) => <li>{children}</li>,
-      [BLOCKS.QUOTE]: (node: any, children: React.ReactNode) => (
+      [BLOCKS.HEADING_1]: (_node: unknown, children: React.ReactNode) => <h1>{children}</h1>,
+      [BLOCKS.HEADING_2]: (_node: unknown, children: React.ReactNode) => <h2>{children}</h2>,
+      [BLOCKS.HEADING_3]: (_node: unknown, children: React.ReactNode) => <h3>{children}</h3>,
+      [BLOCKS.HEADING_4]: (_node: unknown, children: React.ReactNode) => <h4>{children}</h4>,
+      [BLOCKS.HEADING_5]: (_node: unknown, children: React.ReactNode) => <h5>{children}</h5>,
+      [BLOCKS.HEADING_6]: (_node: unknown, children: React.ReactNode) => <h6>{children}</h6>,
+      [BLOCKS.PARAGRAPH]: (_node: unknown, children: React.ReactNode) => <p>{children}</p>,
+      [BLOCKS.UL_LIST]: (_node: unknown, children: React.ReactNode) => <ul>{children}</ul>,
+      [BLOCKS.OL_LIST]: (_node: unknown, children: React.ReactNode) => <ol>{children}</ol>,
+      [BLOCKS.LIST_ITEM]: (_node: unknown, children: React.ReactNode) => <li>{children}</li>,
+      [BLOCKS.QUOTE]: (_node: unknown, children: React.ReactNode) => (
         <blockquote className="role-blockquote">
           {children}
         </blockquote>

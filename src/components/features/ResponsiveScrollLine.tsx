@@ -55,9 +55,7 @@ export default function ResponsiveScrollLine({
     return d;
   };
 
-  useGSAP(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    (ctx) => {
+  useGSAP(() => {
       const container = scope.current;
       const path = pathRef.current;
       if (!container || !path) return;

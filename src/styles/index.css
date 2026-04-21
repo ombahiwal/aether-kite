@@ -1077,7 +1077,7 @@ button:focus-visible {
 .large-link:hover {
   color: var(--theme-accent-hover);
   transform: scale(1.18);
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .large-link:hover::after {

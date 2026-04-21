@@ -79,7 +79,7 @@ const Header: React.FC = () => {
         <div className="header-content">
           <Link to="/" className="header-logo">
             <img
-              src="/images/aetherlogo-black-text.png"
+              src="/images/logocarre.png"
               alt="Æther Swiss Kite"
               className="logo-image"
             />

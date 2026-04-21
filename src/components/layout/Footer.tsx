@@ -64,7 +64,7 @@ const Footer: React.FC = () => {
             <Col xs={12} md={4} lg={3} className="footer-brand">
               <Link to="/" className="footer-logo">
                 <img
-                  src="/images/logorectangle.png"
+                  src="/images/logocarre.png"
                   alt="Æther Swiss Kite"
                   className="footer-logo-image"
                 />

@@ -3,28 +3,30 @@ import { Link, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { useLanguage } from "../../context/LanguageContext";
 
-interface HeaderProps {
-  isHome?: boolean;
-}
-
-const Header: React.FC<HeaderProps> = ({ isHome = false }) => {
-  const [isSticky, setIsSticky] = useState<boolean>(false);
+const Header: React.FC = () => {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const location = useLocation();
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    const isHomePage = location.pathname === "/";
+
     const handleScroll = (): void => {
-      const offset = window.scrollY;
-      const threshold = isHome ? window.innerHeight * 0.7 : 100;
-      setIsSticky(offset > threshold);
+      if (!isHomePage) {
+        setIsVisible(true);
+        return;
+      }
+
+      const threshold = window.innerHeight * 0.85;
+      setIsVisible(window.scrollY > threshold);
     };
 
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Check initial state
-    
+
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isHome]);
+  }, [location.pathname]);
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -51,10 +53,11 @@ const Header: React.FC<HeaderProps> = ({ isHome = false }) => {
 
   const navLinks = [
     { href: "/", label: t("nav.home"), hash: "" },
-    { href: "/team", label: t("nav.team"), hash: "" },
-    { href: "/events", label: t("nav.events"), hash: "" },
     { href: "/news", label: t("nav.news"), hash: "" },
+    { href: "/events", label: t("nav.events"), hash: "" },
     { href: "/join", label: t("nav.join"), hash: "" },
+    { href: "/team", label: t("nav.team"), hash: "" },
+    { href: "/documents/statutes.pdf", label: t("nav.statutes"), hash: "" },
     { href: "/#contact", label: t("nav.getInTouch"), hash: "#contact" },
   ];
 
@@ -68,7 +71,7 @@ const Header: React.FC<HeaderProps> = ({ isHome = false }) => {
   return (
     <header
       ref={headerRef}
-      className={`site-header ${isSticky ? "sticky" : ""} ${
+      className={`site-header sticky ${isVisible ? "is-visible" : "is-hidden"} ${
         isMobileMenuOpen ? "mobile-menu-open" : ""
       }`}
     >
@@ -87,13 +90,25 @@ const Header: React.FC<HeaderProps> = ({ isHome = false }) => {
             {navLinks.map((link) => {
               const active = isActive(link.href);
               return (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  className={`nav-link ${active ? "active" : ""}`}
-                >
-                  {link.label}
-                </Link>
+                link.href.endsWith('.pdf') ? (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="nav-link"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    className={`nav-link ${active ? "active" : ""}`}
+                  >
+                    {link.label}
+                  </Link>
+                )
               );
             })}
           </nav>
@@ -116,14 +131,27 @@ const Header: React.FC<HeaderProps> = ({ isHome = false }) => {
           {navLinks.map((link) => {
             const active = isActive(link.href);
             return (
-              <Link
-                key={link.href}
-                to={link.href}
-                className={`nav-link ${active ? "active" : ""}`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
+              link.href.endsWith('.pdf') ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="nav-link"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className={`nav-link ${active ? "active" : ""}`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              )
             );
           })}
         </nav>

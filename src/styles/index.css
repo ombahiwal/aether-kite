@@ -547,10 +547,50 @@ button:focus-visible {
   /* border: #1a1a1a solid 1px; */
   min-height: 200px;
 }
+
+.join-nav-spacing {
+  margin-bottom: 18rem;
+}
+
+.join-partners-section {
+  margin-bottom: 16rem;
+}
+
+@media (max-width: 768px) {
+  .join-nav-spacing {
+    margin-bottom: 10rem;
+  }
+
+  .join-partners-section {
+    margin-bottom: 8rem;
+  }
+}
+
 .contact-section{
   padding: 20px;
   margin: 5%;
 
+}
+
+.team-section-divider {
+  margin: 4rem 0 2rem;
+}
+
+.team-section-label {
+  font-family: 'KlarheitGroteskMono', monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--theme-text-tertiary);
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--theme-border-primary);
+}
+
+.team-category-divider {
+  border-top: 1px solid var(--theme-border-primary);
+  padding-top: 3rem;
+  margin-top: 2rem;
 }
 
 
@@ -561,6 +601,22 @@ button:focus-visible {
   font-size: 2rem; /* Adjust size as needed */
   line-height: 1.2;
   color: var(--theme-text-primary);
+}
+
+.partner-tier-gold {
+  color: #d4af37;
+}
+
+.partner-tier-silver {
+  color: #7d8691;
+}
+
+.partner-tier-bronze {
+  color: #9a5a24;
+}
+
+.join-partners-section .partners-section {
+  padding-left: 4rem;
 }
 
 .text-section-heading-sub2 {
@@ -609,8 +665,8 @@ button:focus-visible {
 }
 
 .image-partner{
-  width: 250px; 
-  height: 250px; 
+  width: 320px; 
+  height: 320px; 
   margin: 5px;
   padding: 5px;
   background-size: contain; 
@@ -693,12 +749,26 @@ button:focus-visible {
   backdrop-filter: blur(0px);
 }
 
+.site-header.is-hidden {
+  opacity: 0;
+  transform: translateY(-16px);
+  pointer-events: none;
+}
+
+.site-header.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
 .site-header .header-content {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   max-width: 1400px;
   margin: 0 auto;
+  position: relative;
+  min-height: 48px;
 }
 
 /* Logo */
@@ -708,6 +778,7 @@ button:focus-visible {
   text-decoration: none;
   transition: transform 0.3s ease;
   z-index: 1001;
+  flex: 0 0 auto;
 }
 
 .header-logo:hover {
@@ -735,6 +806,9 @@ button:focus-visible {
   display: flex;
   align-items: center;
   gap: 2.5rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .nav-links-desktop .nav-link {
@@ -793,6 +867,7 @@ button:focus-visible {
   padding: 0;
   z-index: 1001;
   position: relative;
+  margin-left: auto;
 }
 
 .mobile-menu-toggle span {
@@ -931,31 +1006,65 @@ button:focus-visible {
   }
 }
 
-.nav-active-link {
-  font-weight: bold;
-  border: 2px solid var(--theme-border-hover);
-  color: var(--theme-accent-hover);
-}
-
 .large-link{
+  display: inline-block;
   font-size: 3.5rem;
   font-weight: 700;
-  margin: 20px;
+  margin: 10px 20px;
   color: var(--theme-text-primary);
+  transition: color 0.3s ease, transform 0.25s ease, font-weight 0.25s ease;
+  position: relative;
+  padding-bottom: 0.3em;
 }
 
 .clean-link {
   text-decoration: none;
 }
 
+.large-link::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.large-link.nav-active-link {
+  font-weight: 900;
+  color: var(--theme-accent-hover);
+  transform: none;
+  transition: color 0.3s ease;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.large-link.nav-active-link::after {
+  width: 100%;
+  transition: width 0.3s ease;
+}
+
+.large-link.nav-active-link:hover {
+  color: var(--theme-accent-hover);
+  transform: none;
+  font-weight: 900;
+}
+
 .clean-link:hover {
   font-family: 'KlarheitGrotesk', sans-serif;
-  border: 2px solid var(--theme-border-hover);
   color: var(--theme-accent-hover);
 }
 
 .large-link:hover {
   color: var(--theme-accent-hover);
+  transform: scale(1.18);
+  font-weight: 900;
+}
+
+.large-link:hover::after {
+  width: 100%;
 }
 
 /* Footer CSS */
@@ -1093,6 +1202,19 @@ button:focus-visible {
 .footer-email:hover {
   color: var(--theme-accent-hover);
   border-bottom-color: currentColor;
+}
+
+.footer-email-feedback {
+  font-family: 'KlarheitGroteskMono', monospace;
+  font-size: 0.75rem;
+  color: var(--theme-text-tertiary);
+  margin: -1.25rem 0 2rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.footer-email-feedback.is-visible {
+  opacity: 1;
 }
 
 /* Footer Social Media */

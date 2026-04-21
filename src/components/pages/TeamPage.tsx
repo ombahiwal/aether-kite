@@ -43,6 +43,13 @@ const TeamPage: React.FC = () => {
         });
     }, []);
 
+    const normalizeCategory = (category: string): string =>
+      category
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim();
+
     const groupTeamsByCategory = (data: ContentItem[]): Record<string, TeamItem[]> => {
         console.log("Grouping teams from data:", data);
         if (!Array.isArray(data)) return {};
@@ -60,27 +67,77 @@ const TeamPage: React.FC = () => {
             return acc;
         }, {});
 
-        // Sort teams within each category by order
-        const toNumber = (value?: number | string | null) => {
-          const parsed = Number(value);
-          return Number.isFinite(parsed) ? parsed : Number.MAX_SAFE_INTEGER;
-        };
-
         for (const category in grouped) {
             grouped[category].sort((a, b) => {
-              const primaryA = toNumber(a.fields.teamOrder ?? a.fields.order);
-              const primaryB = toNumber(b.fields.teamOrder ?? b.fields.order);
-              if (primaryA !== primaryB) {
-                return primaryA - primaryB;
-              }
-              const secondaryA = toNumber(a.fields.teamSubOrder);
-              const secondaryB = toNumber(b.fields.teamSubOrder);
-              return secondaryA - secondaryB;
+              return (a.fields.teamMemberName || '').localeCompare(
+                b.fields.teamMemberName || '',
+                'fr',
+                { sensitivity: 'base' }
+              );
             });
         }
         console.log("Grouped teams:", grouped);
         return grouped;
     };
+
+    const groupedTeams = groupTeamsByCategory(data);
+    const sortCategoryEntries = (entries: [string, TeamItem[]][]) =>
+      [...entries].sort(([categoryA], [categoryB]) =>
+        categoryA.localeCompare(categoryB, 'fr', { sensitivity: 'base' })
+      );
+
+    const categoryEntries = Object.entries(groupedTeams);
+
+    const presidencyCategories = ['presidence', 'présidence', 'presidency', 'comite', 'comité', 'committee'];
+    const impactStrategyCategories = [
+      'communication',
+      'communications',
+      'comm',
+      'sponsors',
+      'sponsoring',
+      'sponsor relations',
+      'durability',
+      'durabilite',
+      'durabilité',
+      'sustainability',
+    ];
+    const standaloneCategories = ['wiki', 'website', 'alumni', 'alumnis'];
+
+    const presidencyEntries = sortCategoryEntries(
+      categoryEntries.filter(([category]) =>
+        presidencyCategories.includes(normalizeCategory(category))
+      )
+    );
+
+    const impactStrategyEntries = sortCategoryEntries(
+      categoryEntries.filter(([category]) =>
+        impactStrategyCategories.includes(normalizeCategory(category))
+      )
+    );
+
+    const standaloneEntries = sortCategoryEntries(
+      categoryEntries.filter(([category]) =>
+        standaloneCategories.includes(normalizeCategory(category))
+      )
+    );
+
+    const technicalEntries = sortCategoryEntries(
+      categoryEntries.filter(([category]) => {
+        const normalized = normalizeCategory(category);
+        return (
+          !presidencyCategories.includes(normalized) &&
+          !impactStrategyCategories.includes(normalized) &&
+          !standaloneCategories.includes(normalized)
+        );
+      })
+    );
+
+    const orderedCategorySections = [
+      { title: null, entries: presidencyEntries },
+      { title: 'Impact & Strategy', entries: impactStrategyEntries },
+      { title: 'Technical teams', entries: technicalEntries },
+      { title: null, entries: standaloneEntries },
+    ].filter((section) => section.entries.length > 0);
 
     if (isLoading) {
       return (
@@ -120,37 +177,58 @@ const TeamPage: React.FC = () => {
       </Row>
 </Container>
 
-        {data && Object.entries(groupTeamsByCategory(data)).map(([category, teams]: [string, TeamItem[]]) => (
-                        <Container key={category} fluid className="partners-section mb-5">
-                          <Row>
-                            <Col sm={1}></Col>
-                            <Col sm={3}>
-                                <h1 className="text-section-heading-sub">{category}</h1>
-                            </Col>
-                          </Row>
-                            <Row className="align-items-center">
-                              <Col sm={1}></Col>
-                              <Col sm={10}>
-                                  <Row className="gy-4">
-                                  {teams.map((team) => (
-                                      <Col key={team.id} sm={4} className="text-center">
-                                          <Image
-                                              className="image-partner"
-                                              src={team.fields.teamMemberImage}
-                                              alt={team.fields.teamMemberName}
-                                              fluid
-                                          />
-                                          <p className="text-mono-body mt-2">{team.fields.teamMemberName}</p>
-                                          <span className="text-mono-body mt-2"><ReactMarkdown>{team.fields.teamMemberTitle}</ReactMarkdown></span>
-                                      </Col>
-                                  ))}
-                                  </Row>
-                              </Col>
-                            </Row>
+        {orderedCategorySections.map((section) => (
+          <React.Fragment key={section.title ?? 'presidency'}>
+            {section.title && (
+              <Container fluid className="team-section-divider">
+                <Row>
+                  <Col sm={1}></Col>
+                  <Col sm={10}>
+                    <h2 className="team-section-label">{section.title}</h2>
+                  </Col>
+                </Row>
+              </Container>
+            )}
 
-                        </Container>
-                        
-                        ))}
+            {section.entries.map(([category, teams]: [string, TeamItem[]]) => {
+              const normalizedCategory = normalizeCategory(category);
+              const categoryContainerClassName = `partners-section mb-5 ${
+                normalizedCategory === 'alumni' || normalizedCategory === 'alumnis'
+                  ? 'team-category-divider'
+                  : ''
+              }`.trim();
+
+              return (
+              <Container key={category} fluid className={categoryContainerClassName}>
+                <Row>
+                  <Col sm={1}></Col>
+                  <Col sm={3}>
+                    <h1 className="text-section-heading-sub">{category}</h1>
+                  </Col>
+                </Row>
+                <Row className="align-items-center">
+                  <Col sm={1}></Col>
+                  <Col sm={10}>
+                    <Row className="gy-4">
+                      {teams.map((team) => (
+                        <Col key={team.id} sm={4} className="text-center">
+                          <Image
+                            className="image-partner"
+                            src={team.fields.teamMemberImage}
+                            alt={team.fields.teamMemberName}
+                            fluid
+                          />
+                          <p className="text-mono-body mt-2">{team.fields.teamMemberName}</p>
+                          <span className="text-mono-body mt-2"><ReactMarkdown>{team.fields.teamMemberTitle}</ReactMarkdown></span>
+                        </Col>
+                      ))}
+                    </Row>
+                  </Col>
+                </Row>
+              </Container>
+            )})}
+          </React.Fragment>
+        ))}
 
     <Footer/>
     </div>

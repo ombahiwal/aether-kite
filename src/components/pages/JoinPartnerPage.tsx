@@ -67,6 +67,29 @@ const JoinPartnerPage: React.FC = () => {
         return grouped;
     };
 
+    const getPartnerCategoryClassName = (category: string): string => {
+        const normalizedCategory = category
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase();
+
+        if (normalizedCategory === 'mistral') return 'partner-tier-gold';
+        if (normalizedCategory === 'joran') return 'partner-tier-silver';
+        if (normalizedCategory === 'alize') return 'partner-tier-bronze';
+
+        return '';
+    };
+
+    const shouldHidePartnerName = (partnerName?: string): boolean => {
+        const normalizedPartnerName = (partnerName || '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase()
+          .trim();
+
+        return ['makita', 'swiss composite'].includes(normalizedPartnerName);
+    };
+
     if (isLoading) {
       return (
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
@@ -90,16 +113,15 @@ const JoinPartnerPage: React.FC = () => {
                         </div>
             
                 <Container fluid>  
-                <Row className="mb-6">
+                <Row className="join-nav-spacing">
                     <Col sm={1}></Col>
                     <Col sm={10}>
                     <NavComponent/>
-                    <p className='text-mono-body'>Become a partner </p>
                     </Col>
                 </Row>
                 </Container>
                   {/* Partners section  */}
-                            <Container className="partners-section border-1px" fluid>
+                            <Container className="partners-section border-1px join-partners-section" fluid>
                                 <Row >
                                     <Col sm={1}></Col>
                                     <Col sm={10}><p className="text-left text-section-heading ">Our Partners</p></Col>
@@ -110,7 +132,7 @@ const JoinPartnerPage: React.FC = () => {
                                         <Container key={category} fluid className="partners-section mb-5">
                                             <Row className="align-items-center">
                                             <Col sm={2}>
-                                                <h1 className="text-section-heading-sub">{category}</h1>
+                                                <h1 className={`text-section-heading-sub ${getPartnerCategoryClassName(category)}`.trim()}>{category}</h1>
                                             </Col>
                 
                                             <Col sm={10}>
@@ -123,7 +145,9 @@ const JoinPartnerPage: React.FC = () => {
                                                         alt={partner.fields.partnerName}
                                                         fluid
                                                     />
-                                                    <p className="text-mono-body mt-2">{partner.fields.partnerName}</p>
+                                                    {!shouldHidePartnerName(partner.fields.partnerName) && (
+                                                      <p className="text-mono-body mt-2">{partner.fields.partnerName}</p>
+                                                    )}
                                                     </Col>
                                                 ))}
                                                 </Row>

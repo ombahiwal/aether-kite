@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
@@ -7,6 +7,26 @@ import LanguageSelector from '../ui/LanguageSelector';
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const { t } = useLanguage();
+  const [emailCopied, setEmailCopied] = useState(false);
+  const copyFeedbackTimeoutRef = useRef<number | null>(null);
+  const contactEmail = 'contact@aetherswisskite.ch';
+
+  const handleEmailClick = async () => {
+    try {
+      await navigator.clipboard.writeText(contactEmail);
+      setEmailCopied(true);
+
+      if (copyFeedbackTimeoutRef.current) {
+        window.clearTimeout(copyFeedbackTimeoutRef.current);
+      }
+
+      copyFeedbackTimeoutRef.current = window.setTimeout(() => {
+        setEmailCopied(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Unable to copy contact email:', error);
+    }
+  };
 
   const socialLinks = [
     {
@@ -28,10 +48,10 @@ const Footer: React.FC = () => {
 
   const quickLinks = [
     { href: '/', label: t('footer.home') },
-    { href: '/team', label: t('footer.theTeam') },
-    { href: '/events', label: t('footer.events') },
     { href: '/news', label: t('footer.news') },
+    { href: '/events', label: t('footer.events') },
     { href: '/join', label: t('footer.join') },
+    { href: '/team', label: t('footer.theTeam') },
   ];
 
   return (
@@ -44,7 +64,7 @@ const Footer: React.FC = () => {
             <Col xs={12} md={4} lg={3} className="footer-brand">
               <Link to="/" className="footer-logo">
                 <img
-                  src="/images/logo.png"
+                  src="/images/logorectangle.png"
                   alt="Æther Swiss Kite"
                   className="footer-logo-image"
                 />
@@ -65,8 +85,13 @@ const Footer: React.FC = () => {
                   </li>
                 ))}
                 <li>
-                  <a href="/#contact" className="footer-nav-link">
-                    {t('footer.getInTouch')}
+                  <a
+                    href="/documents/statutes.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-nav-link"
+                  >
+                    {t('footer.statutes')}
                   </a>
                 </li>
               </ul>
@@ -79,11 +104,16 @@ const Footer: React.FC = () => {
                 {t('footer.description')}
               </p>
               <a
-                href="mailto:contact@aetherswisskite.ch"
+                href={`mailto:${contactEmail}`}
                 className="footer-email"
+                onClick={handleEmailClick}
+                title={t('footer.emailAction')}
               >
-                contact@aetherswisskite.ch
+                {contactEmail}
               </a>
+              <p className={`footer-email-feedback ${emailCopied ? 'is-visible' : ''}`}>
+                {t('footer.emailCopied')}
+              </p>
 
               {/* Social Media */}
               <div className="footer-social">

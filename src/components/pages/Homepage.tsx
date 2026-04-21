@@ -189,11 +189,13 @@ const HomePage: React.FC = () => {
           ></div>
         )}
 
+        <div className="hero-fade-overlay" />
+
         {/* Text overlay */}
         <div
           className="hero-text position-relative"
           style={{
-            zIndex: 1,
+            zIndex: 2,
             color: "#fff",
             textAlign: "left",
             padding: "10rem 2rem",

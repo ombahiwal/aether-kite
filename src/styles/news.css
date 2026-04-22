@@ -148,13 +148,13 @@
   padding: 4rem 0;
 }
 
-.news-instagram-section {
+.news-highlights-section {
   border-top: 1px solid var(--theme-border-secondary);
   padding: 3rem 0 4rem;
   background: var(--theme-bg-primary);
 }
 
-.news-instagram-kicker {
+.news-highlights-kicker {
   font-family: 'KlarheitGroteskMono', monospace;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -162,55 +162,234 @@
   margin-bottom: 0.5rem;
 }
 
-.news-instagram-title {
+.news-highlights-title {
   font-family: 'KlarheitGrotesk', sans-serif;
   font-size: 2.25rem;
   margin-bottom: 0.5rem;
 }
 
-.news-instagram-subtitle {
+.news-highlights-subtitle {
   font-family: 'KlarheitGrotesk', sans-serif;
   color: var(--theme-text-secondary);
   max-width: 720px;
   margin-bottom: 2rem;
 }
 
-.instagram-scroll-container {
-  display: flex;
+.news-highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
-  overflow-x: auto;
-  padding-bottom: 1rem;
-  scrollbar-width: thin;
+  align-items: start;
 }
 
-.instagram-scroll-container::-webkit-scrollbar {
-  height: 6px;
+.highlight-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.instagram-scroll-container::-webkit-scrollbar-thumb {
-  background-color: var(--theme-border-secondary);
-  border-radius: 999px;
+.highlight-panel-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.instagram-scroll-card {
-  flex: 0 0 320px;
+.highlight-platform-label {
+  margin: 0;
+  font-family: 'KlarheitGroteskMono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--theme-text-tertiary);
+}
+
+.highlight-panel-title {
+  margin: 0;
+  font-family: 'KlarheitGrotesk', sans-serif;
+  font-size: 1.8rem;
+}
+
+.highlight-panel-subtitle {
+  margin: 0;
+  font-family: 'KlarheitGroteskMono', monospace;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--theme-text-secondary);
+}
+
+.instagram-highlight-card {
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
   border: 1px solid var(--theme-border-secondary);
-  padding: 1rem;
-  background: transparent;
+  padding: 1.25rem;
+  min-height: 100%;
+}
+
+.instagram-highlight-media .instagram-embed-wrapper {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+}
+
+.instagram-highlight-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.highlight-card-status {
+  margin: 0;
+  font-family: 'KlarheitGroteskMono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--theme-text-secondary);
+}
+
+.instagram-highlight-title {
+  margin: 0;
+  font-family: 'KlarheitGrotesk', sans-serif;
+  font-size: 2rem;
+  line-height: 1.05;
+}
+
+.instagram-highlight-summary {
+  margin: 0;
+  font-family: 'KlarheitGroteskMono', monospace;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--theme-text-secondary);
+  max-width: 48rem;
+}
+
+.instagram-highlight-link {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 0.5rem;
+  font-family: 'KlarheitGroteskMono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.82rem;
+  color: var(--theme-text-primary);
+  text-decoration: none;
+}
+
+.instagram-highlight-link:hover {
+  color: var(--theme-accent-hover);
+}
+
+.linkedin-highlight-card {
+  min-height: 100%;
+  border: 1px solid var(--theme-border-secondary);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+    transparent;
+}
+
+.linkedin-highlight-header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.linkedin-highlight-brand-link {
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.22s ease, opacity 0.22s ease, color 0.22s ease;
+}
+
+.linkedin-highlight-brand-link:hover {
+  color: inherit;
+  transform: translateY(-2px);
+}
+
+.linkedin-highlight-brand-link:hover .linkedin-highlight-mark {
+  box-shadow: 0 10px 24px rgba(10, 102, 194, 0.28);
+  transform: scale(1.04);
+}
+
+.linkedin-highlight-brand-link:hover .linkedin-highlight-company {
+  color: var(--theme-accent-hover);
+}
+
+.linkedin-highlight-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: #0a66c2;
+  color: #fff;
+  font-family: 'KlarheitGrotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.linkedin-highlight-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.linkedin-highlight-company {
+  margin: 0;
+  font-family: 'KlarheitGrotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--theme-text-primary);
+  transition: color 0.22s ease;
+}
+
+.linkedin-highlight-title {
+  margin: 0;
+  font-family: 'KlarheitGrotesk', sans-serif;
+  font-size: 2rem;
+  line-height: 1.05;
+}
+
+.linkedin-highlight-summary {
+  margin: 0;
+  font-family: 'KlarheitGroteskMono', monospace;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--theme-text-secondary);
+  max-width: 36rem;
+}
+
+.linkedin-highlight-placeholder {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
 }
 
-.instagram-scroll-card .instagram-embed-wrapper {
+.linkedin-highlight-placeholder-line,
+.linkedin-highlight-placeholder-block {
+  display: block;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.linkedin-highlight-placeholder-line {
+  height: 10px;
   width: 100%;
-  aspect-ratio: 16 / 9;
 }
 
-.instagram-scroll-caption {
-  font-family: 'KlarheitGroteskMono', monospace;
-  font-size: 0.9rem;
-  color: var(--theme-text-secondary);
+.linkedin-highlight-placeholder-line.is-short {
+  width: 72%;
+}
+
+.linkedin-highlight-placeholder-block {
+  width: 100%;
+  aspect-ratio: 16 / 8;
 }
 
 .news-detail-hero {
@@ -288,7 +467,8 @@
     padding: 1rem;
   }
 
-  .instagram-scroll-card {
-    flex: 0 0 80vw;
+  .news-highlights-grid,
+  .instagram-highlight-card {
+    grid-template-columns: 1fr;
   }
 }

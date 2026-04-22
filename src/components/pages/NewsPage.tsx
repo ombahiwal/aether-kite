@@ -13,6 +13,8 @@ import '../../styles/news.css';
 const NEWS_CONTENT_TYPE = 'newsPost';
 
 const ITEMS_PER_PAGE = 10;
+const INSTAGRAM_PROFILE_URL = 'https://www.instagram.com/aether.swiss.kite/';
+const LINKEDIN_PROFILE_URL = 'https://www.linkedin.com/company/%C3%A6ther-swiss-kite';
 
 const NewsPage: React.FC = () => {
   const { t, language } = useLanguage();
@@ -63,6 +65,7 @@ const NewsPage: React.FC = () => {
     [sortedNews]
   );
 
+  const latestInstagramHighlight = instagramHighlights[0];
   const totalPages = Math.ceil(articleNews.length / ITEMS_PER_PAGE);
 
   useEffect(() => {
@@ -180,22 +183,93 @@ const NewsPage: React.FC = () => {
         </Row>
       </Container>
 
-      {instagramHighlights.length > 0 && (
-        <section className="news-instagram-section">
+      {(latestInstagramHighlight || LINKEDIN_PROFILE_URL) && (
+        <section className="news-highlights-section">
           <Container fluid>
             <Row>
               <Col sm={1}></Col>
               <Col sm={10}>
-                <p className="news-instagram-kicker">{t('newsPage.instagramLabel')}</p>
-                <h2 className="news-instagram-title">{t('newsPage.instagramSectionTitle')}</h2>
-                <p className="news-instagram-subtitle">{t('newsPage.instagramSectionSubtitle')}</p>
-                <div className="instagram-scroll-container">
-                  {instagramHighlights.map((item) => (
-                    <div className="instagram-scroll-card" key={`instagram-${item.id}`}>
-                      <InstagramEmbed url={item.instagramEmbedUrl!} title={item.title} />
-                      <p className="instagram-scroll-caption">{item.title}</p>
+                <p className="news-highlights-kicker">{t('newsPage.highlightsLabel')}</p>
+                <h2 className="news-highlights-title">{t('newsPage.highlightsTitle')}</h2>
+                <p className="news-highlights-subtitle">{t('newsPage.highlightsSubtitle')}</p>
+                <div className="news-highlights-grid">
+                  {latestInstagramHighlight && (
+                    <article className="highlight-panel highlight-panel-instagram">
+                      <div className="highlight-panel-header">
+                        <p className="highlight-platform-label">{t('newsPage.instagramLabel')}</p>
+                        <h3 className="highlight-panel-title">{t('newsPage.instagramSectionTitle')}</h3>
+                        <p className="highlight-panel-subtitle">{t('newsPage.instagramSectionSubtitle')}</p>
+                      </div>
+                      <div className="instagram-highlight-card">
+                        <div className="instagram-highlight-media">
+                          <InstagramEmbed
+                            url={latestInstagramHighlight.instagramEmbedUrl!}
+                            title={latestInstagramHighlight.title}
+                          />
+                        </div>
+                        <div className="instagram-highlight-content">
+                          <p className="highlight-card-status">{t('newsPage.instagramLatestLabel')}</p>
+                          <h4 className="instagram-highlight-title">{latestInstagramHighlight.title}</h4>
+                          {latestInstagramHighlight.summary && (
+                            <p className="instagram-highlight-summary">{latestInstagramHighlight.summary}</p>
+                          )}
+                          <a
+                            href={INSTAGRAM_PROFILE_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="instagram-highlight-link"
+                          >
+                            {t('newsPage.instagramProfileLink')}
+                          </a>
+                        </div>
+                      </div>
+                    </article>
+                  )}
+
+                  <article className="highlight-panel highlight-panel-linkedin">
+                    <div className="highlight-panel-header">
+                      <p className="highlight-platform-label">{t('newsPage.linkedinLabel')}</p>
+                      <h3 className="highlight-panel-title">{t('newsPage.linkedinTitle')}</h3>
+                      <p className="highlight-panel-subtitle">{t('newsPage.linkedinSubtitle')}</p>
                     </div>
-                  ))}
+                    <div className="linkedin-highlight-card">
+                      <p className="highlight-card-status">{t('newsPage.linkedinLatestLabel')}</p>
+                      <div className="linkedin-highlight-header">
+                        <a
+                          href={LINKEDIN_PROFILE_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="linkedin-highlight-brand-link"
+                          aria-label={t('newsPage.linkedinProfileLink')}
+                        >
+                          <div className="linkedin-highlight-mark">in</div>
+                        </a>
+                        <a
+                          href={LINKEDIN_PROFILE_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="linkedin-highlight-meta linkedin-highlight-brand-link"
+                        >
+                          <p className="linkedin-highlight-company">{t('newsPage.linkedinCompany')}</p>
+                        </a>
+                      </div>
+                      <h4 className="linkedin-highlight-title">{t('newsPage.linkedinCardTitle')}</h4>
+                      <p className="linkedin-highlight-summary">{t('newsPage.linkedinCardSummary')}</p>
+                      <div className="linkedin-highlight-placeholder">
+                        <span className="linkedin-highlight-placeholder-line" />
+                        <span className="linkedin-highlight-placeholder-line is-short" />
+                        <span className="linkedin-highlight-placeholder-block" />
+                      </div>
+                      <a
+                        href={LINKEDIN_PROFILE_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="instagram-highlight-link"
+                      >
+                        {t('newsPage.linkedinProfileLink')}
+                      </a>
+                    </div>
+                  </article>
                 </div>
               </Col>
             </Row>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { useLanguage } from "../../context/LanguageContext";
 
@@ -7,6 +7,7 @@ const Header: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -50,6 +51,32 @@ const Header: React.FC = () => {
   }, [isMobileMenuOpen]);
 
   const { t } = useLanguage();
+
+  const handleContactNavigation = () => {
+    setIsMobileMenuOpen(false);
+    const contactPath = "/#contact";
+
+    if (location.pathname !== "/") {
+      navigate(contactPath);
+      return;
+    }
+
+    const contactSection = document.getElementById("contact");
+    if (!contactSection) {
+      navigate(contactPath);
+      return;
+    }
+
+    const headerOffset = 110;
+    const elementPosition = contactSection.getBoundingClientRect().top + window.scrollY;
+    const scrollPosition = Math.max(elementPosition - headerOffset, 0);
+
+    window.scrollTo({
+      top: scrollPosition,
+      left: 0,
+      behavior: "smooth",
+    });
+  };
 
   const navLinks = [
     { href: "/", label: t("nav.home"), hash: "" },
@@ -101,13 +128,24 @@ const Header: React.FC = () => {
                     {link.label}
                   </a>
                 ) : (
-                  <Link
-                    key={link.href}
-                    to={link.href}
-                    className={`nav-link ${active ? "active" : ""}`}
-                  >
-                    {link.label}
-                  </Link>
+                  link.hash ? (
+                    <button
+                      key={link.href}
+                      type="button"
+                      className="nav-link nav-link-button"
+                      onClick={handleContactNavigation}
+                    >
+                      {link.label}
+                    </button>
+                  ) : (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      className={`nav-link ${active ? "active" : ""}`}
+                    >
+                      {link.label}
+                    </Link>
+                  )
                 )
               );
             })}
@@ -143,14 +181,25 @@ const Header: React.FC = () => {
                   {link.label}
                 </a>
               ) : (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  className={`nav-link ${active ? "active" : ""}`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
+                link.hash ? (
+                  <button
+                    key={link.href}
+                    type="button"
+                    className="nav-link nav-link-button"
+                    onClick={handleContactNavigation}
+                  >
+                    {link.label}
+                  </button>
+                ) : (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    className={`nav-link ${active ? "active" : ""}`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                )
               )
             );
           })}

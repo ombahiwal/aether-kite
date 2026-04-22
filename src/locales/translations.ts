@@ -29,6 +29,22 @@ const translations = {
     common: {
       loading: 'Loading...',
     },
+    contactSection: {
+      kicker: 'Contact',
+      title: 'Let’s build the next step together.',
+      description: 'If you want to join the team, collaborate, or simply learn more about the project, this is the right place to start.',
+      copyAction: 'Copy email',
+      copyFeedback: 'Email copied',
+      cardLabel: 'Quick paths',
+      primaryLink: 'Join the project',
+      secondaryLink: 'Meet the team',
+      tertiaryLink: 'Read the latest news',
+    },
+    teamPage: {
+      title: 'The Æther Swiss Kite team',
+      impactStrategy: 'Impact & Strategy',
+      technicalTeams: 'Technical teams',
+    },
     newsPage: {
       kicker: 'News',
       title: 'Newsroom',
@@ -90,6 +106,22 @@ const translations = {
     common: {
       loading: 'Chargement...',
     },
+    contactSection: {
+      kicker: 'Contact',
+      title: 'Construisons la suite ensemble.',
+      description: 'Si vous souhaitez rejoindre l’équipe, collaborer ou simplement en savoir plus sur le projet, c’est le bon point d’entrée.',
+      copyAction: 'Copier l’adresse',
+      copyFeedback: 'Adresse copiée',
+      cardLabel: 'Accès rapides',
+      primaryLink: 'Rejoindre le projet',
+      secondaryLink: 'Découvrir l’équipe',
+      tertiaryLink: 'Lire les actualités',
+    },
+    teamPage: {
+      title: "L'équipe Æther Swiss Kite",
+      impactStrategy: 'Impact & stratégie',
+      technicalTeams: 'Équipes techniques',
+    },
     newsPage: {
       kicker: 'Actualités',
       title: 'Salle de presse',
@@ -150,6 +182,17 @@ const translations = {
     },
     common: {
       loading: 'Lädt...',
+    },
+    contactSection: {
+      kicker: 'Kontakt',
+      title: 'Lassen Sie uns den nächsten Schritt gemeinsam gestalten.',
+      description: 'Wenn Sie dem Team beitreten, mit uns zusammenarbeiten oder einfach mehr über das Projekt erfahren möchten, sind Sie hier richtig.',
+      copyAction: 'E-Mail kopieren',
+      copyFeedback: 'E-Mail kopiert',
+      cardLabel: 'Schnellzugriffe',
+      primaryLink: 'Beim Projekt mitmachen',
+      secondaryLink: 'Das Team kennenlernen',
+      tertiaryLink: 'Neuigkeiten lesen',
     },
     newsPage: {
       kicker: 'News',

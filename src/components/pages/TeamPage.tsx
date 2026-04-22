@@ -2,12 +2,13 @@ import React from 'react';
 import ThreadsCanvas from '../features/ThreadsCanvas';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
-import { getContent } from '../../api/contentful';
+import { getContent, getContentfulLocale } from '../../api/contentful';
 import type { ContentItem } from '../../api/contentful';
 import { Image, Spinner } from 'react-bootstrap';
 import ReactMarkdown from "react-markdown";
 import Footer from "../layout/Footer";
 import NavComponent from '../layout/NavComponent';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface TeamItem extends ContentItem {
   fields: {
@@ -22,6 +23,7 @@ interface TeamItem extends ContentItem {
 }
 
 const TeamPage: React.FC = () => {
+    const { language, t } = useLanguage();
     const [data, setData] = useState<ContentItem[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -29,7 +31,8 @@ const TeamPage: React.FC = () => {
     useEffect(() => {
       setIsLoading(true);
       setError(null);
-      getContent()
+      const locale = getContentfulLocale(language);
+      getContent(undefined, locale)
         .then((data_resp: ContentItem[]) => {
           setData(data_resp);
           console.log("Data response:", data_resp);
@@ -41,7 +44,7 @@ const TeamPage: React.FC = () => {
         .finally(() => {
           setIsLoading(false);
         });
-    }, []);
+    }, [language]);
 
     const normalizeCategory = (category: string): string =>
       category
@@ -49,6 +52,118 @@ const TeamPage: React.FC = () => {
         .replace(/[\u0300-\u036f]/g, '')
         .toLowerCase()
         .trim();
+
+    const normalizeText = (value?: string): string =>
+      (value || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim();
+
+    const getNumericOrder = (value?: number | string): number => {
+      if (typeof value === 'number') return value;
+      if (typeof value === 'string') {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? parsed : Number.POSITIVE_INFINITY;
+      }
+      return Number.POSITIVE_INFINITY;
+    };
+
+    const matchesAny = (value: string, patterns: string[]): boolean =>
+      patterns.some((pattern) => value.includes(pattern));
+
+    const presidencyCategories = ['presidence', 'présidence', 'presidency', 'comite', 'comité', 'committee'];
+    const impactStrategyCategories = [
+      'communication',
+      'communications',
+      'comm',
+      'sponsors',
+      'sponsoring',
+      'sponsor relations',
+      'durability',
+      'durabilite',
+      'durabilité',
+      'sustainability',
+    ];
+    const standaloneCategories = ['wiki', 'website', 'alumni', 'alumnis'];
+
+    const isTeamLeader = (team: TeamItem): boolean => {
+      const normalizedTitle = normalizeText(team.fields.teamMemberTitle);
+
+      return [
+        'team leader',
+        'team lead',
+        'lead',
+        'leader',
+        'head',
+        'responsable',
+        'chef',
+        'leitung',
+      ].some((keyword) => normalizedTitle.includes(keyword));
+    };
+
+    const getCommitteePriority = (team: TeamItem): number => {
+      const normalizedTitle = normalizeText(team.fields.teamMemberTitle);
+
+      if (matchesAny(normalizedTitle, [
+        'co-president',
+        'co president',
+        'co presidents',
+        'copresident',
+        'co-presidents',
+      ])) {
+        return 0;
+      }
+      if (matchesAny(normalizedTitle, [
+        'vice president',
+        'vice-president',
+        'vice presidents',
+        'vice-presidente',
+        'vice presidente',
+        'vice-presidents',
+      ])) {
+        return 1;
+      }
+      if (matchesAny(normalizedTitle, [
+        'tresorier',
+        'treasurer',
+        'treasury',
+      ])) {
+        return 2;
+      }
+      if (matchesAny(normalizedTitle, [
+        'ressources internes',
+        'internal resources',
+        'internal resource',
+        'internal',
+      ])) {
+        return 3;
+      }
+      if (matchesAny(normalizedTitle, [
+        'logistics',
+        'logistic',
+        'logistique',
+        'logs',
+      ])) {
+        return 4;
+      }
+      if (matchesAny(normalizedTitle, [
+        'communication',
+        'communications',
+        'comm',
+      ])) {
+        return 5;
+      }
+      if (matchesAny(normalizedTitle, [
+        'academic coordinator',
+        'academic',
+        'coordinateur academique',
+      ])) {
+        return 6;
+      }
+
+      return Number.POSITIVE_INFINITY;
+    };
 
     const groupTeamsByCategory = (data: ContentItem[]): Record<string, TeamItem[]> => {
         console.log("Grouping teams from data:", data);
@@ -69,6 +184,57 @@ const TeamPage: React.FC = () => {
 
         for (const category in grouped) {
             grouped[category].sort((a, b) => {
+              const normalizedCategory = normalizeCategory(category);
+              const isCommitteeCategory = presidencyCategories.includes(normalizedCategory);
+
+              if (isCommitteeCategory) {
+                const committeePriorityDifference = getCommitteePriority(a) - getCommitteePriority(b);
+                if (committeePriorityDifference !== 0) {
+                  return committeePriorityDifference;
+                }
+
+                const teamOrderDifference = getNumericOrder(a.fields.teamOrder) - getNumericOrder(b.fields.teamOrder);
+                if (teamOrderDifference !== 0) {
+                  return teamOrderDifference;
+                }
+
+                const subOrderDifference = getNumericOrder(a.fields.teamSubOrder) - getNumericOrder(b.fields.teamSubOrder);
+                if (subOrderDifference !== 0) {
+                  return subOrderDifference;
+                }
+
+                const explicitOrderDifference = getNumericOrder(a.fields.order) - getNumericOrder(b.fields.order);
+                if (explicitOrderDifference !== 0) {
+                  return explicitOrderDifference;
+                }
+
+                return (a.fields.teamMemberName || '').localeCompare(
+                  b.fields.teamMemberName || '',
+                  'fr',
+                  { sensitivity: 'base' }
+                );
+              }
+
+              const leaderDifference = Number(isTeamLeader(b)) - Number(isTeamLeader(a));
+              if (leaderDifference !== 0) {
+                return leaderDifference;
+              }
+
+              const teamOrderDifference = getNumericOrder(a.fields.teamOrder) - getNumericOrder(b.fields.teamOrder);
+              if (teamOrderDifference !== 0) {
+                return teamOrderDifference;
+              }
+
+              const subOrderDifference = getNumericOrder(a.fields.teamSubOrder) - getNumericOrder(b.fields.teamSubOrder);
+              if (subOrderDifference !== 0) {
+                return subOrderDifference;
+              }
+
+              const explicitOrderDifference = getNumericOrder(a.fields.order) - getNumericOrder(b.fields.order);
+              if (explicitOrderDifference !== 0) {
+                return explicitOrderDifference;
+              }
+
               return (a.fields.teamMemberName || '').localeCompare(
                 b.fields.teamMemberName || '',
                 'fr',
@@ -87,21 +253,6 @@ const TeamPage: React.FC = () => {
       );
 
     const categoryEntries = Object.entries(groupedTeams);
-
-    const presidencyCategories = ['presidence', 'présidence', 'presidency', 'comite', 'comité', 'committee'];
-    const impactStrategyCategories = [
-      'communication',
-      'communications',
-      'comm',
-      'sponsors',
-      'sponsoring',
-      'sponsor relations',
-      'durability',
-      'durabilite',
-      'durabilité',
-      'sustainability',
-    ];
-    const standaloneCategories = ['wiki', 'website', 'alumni', 'alumnis'];
 
     const presidencyEntries = sortCategoryEntries(
       categoryEntries.filter(([category]) =>
@@ -134,8 +285,8 @@ const TeamPage: React.FC = () => {
 
     const orderedCategorySections = [
       { title: null, entries: presidencyEntries },
-      { title: 'Impact & Strategy', entries: impactStrategyEntries },
-      { title: 'Technical teams', entries: technicalEntries },
+      { title: t('teamPage.impactStrategy'), entries: impactStrategyEntries },
+      { title: t('teamPage.technicalTeams'), entries: technicalEntries },
       { title: null, entries: standaloneEntries },
     ].filter((section) => section.entries.length > 0);
 
@@ -143,7 +294,7 @@ const TeamPage: React.FC = () => {
       return (
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
           <Spinner animation="border" role="status" style={{ color: 'white', width: '3rem', height: '3rem' }}>
-            <span className="visually-hidden">Loading...</span>
+            <span className="visually-hidden">{t('common.loading')}</span>
           </Spinner>
         </div>
       );
@@ -172,7 +323,7 @@ const TeamPage: React.FC = () => {
       <Row>
         <Col sm={6}></Col>
         <Col sm={6}>
-           <h1 className='text-section-heading'>The Æther Swiss Kite team </h1>
+           <h1 className='text-section-heading'>{t('teamPage.title')}</h1>
         </Col>
       </Row>
 </Container>

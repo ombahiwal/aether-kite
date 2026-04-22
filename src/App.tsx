@@ -50,6 +50,12 @@ function ScrollManager() {
         left: 0,
         behavior: 'smooth',
       });
+
+      window.setTimeout(() => {
+        if (window.location.hash === location.hash) {
+          window.history.replaceState(null, '', `${location.pathname}${location.search}`);
+        }
+      }, 450);
     };
 
     const timeoutId = window.setTimeout(scrollToLocation, 120);

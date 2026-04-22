@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
 
 interface NavProps {
@@ -14,6 +14,7 @@ interface NavLinkItem {
 
 const Nav: React.FC<NavProps> = ({ className = "" }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useLanguage();
   
   const links: NavLinkItem[] = [
@@ -34,6 +35,31 @@ const Nav: React.FC<NavProps> = ({ className = "" }) => {
     
   ];
 
+  const handleContactNavigation = () => {
+    const contactPath = "/#contact";
+
+    if (location.pathname !== "/") {
+      navigate(contactPath);
+      return;
+    }
+
+    const contactSection = document.getElementById("contact");
+    if (!contactSection) {
+      navigate(contactPath);
+      return;
+    }
+
+    const headerOffset = 110;
+    const elementPosition = contactSection.getBoundingClientRect().top + window.scrollY;
+    const scrollPosition = Math.max(elementPosition - headerOffset, 0);
+
+    window.scrollTo({
+      top: scrollPosition,
+      left: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
   <nav className={`nav-comp ${className}`}>
       {links.map((link) => {
@@ -42,14 +68,24 @@ const Nav: React.FC<NavProps> = ({ className = "" }) => {
           : location.pathname === link.href;
         return (
           <p key={link.href} className="text-left text-section-heading">
-            <Link
-              to={link.href}
-              className={`large-link clean-link text-section-heading ${
-                isActive ? "nav-active-link" : ""
-              }`}
-            >
-              {link.label}
-            </Link>
+            {link.href === "/#contact" ? (
+              <button
+                type="button"
+                onClick={handleContactNavigation}
+                className="large-link clean-link text-section-heading nav-link-button-large"
+              >
+                {link.label}
+              </button>
+            ) : (
+              <Link
+                to={link.href}
+                className={`large-link clean-link text-section-heading ${
+                  isActive ? "nav-active-link" : ""
+                }`}
+              >
+                {link.label}
+              </Link>
+            )}
           </p>
         );
       })}

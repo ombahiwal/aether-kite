@@ -11,6 +11,7 @@ import Footer from "../layout/Footer";
 import TextType from '../ui/TextType';
 import ScrollDrawSVG from '../features/ScrollDrawSVG';
 import ScrollPath from '../features/ScrollPath';
+import GetInTouch from '../ui/GetInTouch';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -333,7 +334,7 @@ const HomePage: React.FC = () => {
   </Row>
 </Container>
            
-            <section id="contact"></section>
+            <GetInTouch />
             <Footer/>
             
             

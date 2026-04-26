@@ -100,7 +100,7 @@ const translations = {
       getInTouch: 'NOUS CONTACTER',
     },
     footer: {
-      tagline: 'Accélérer la transition énergétique, portés par la puissance des kites.',
+      tagline: 'La transition énergétique propulsée par des kites',
       home: 'Accueil',
       theTeam: 'L\'Équipe',
       events: 'Chronologie',
@@ -122,7 +122,7 @@ const translations = {
     contactSection: {
       kicker: 'Contact',
       title: 'Construisons la suite ensemble.',
-      description: 'Si vous souhaitez rejoindre l’équipe, collaborer ou simplement en savoir plus sur le projet, c’est le bon point d’entrée.',
+      description: 'Siii vous souhaitez rejoindre l’équipe, collaborer ou simplement en savoir plus sur le projet, c’est le bon point d’entrée.',
       copyAction: 'Copier l’adresse',
       copyFeedback: 'Adresse copiée',
       cardLabel: 'Accès rapides',

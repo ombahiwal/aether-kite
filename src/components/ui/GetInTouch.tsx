@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
+import SocialIcon from './SocialIcon';
 
 const GetInTouch: React.FC = () => {
   const { t } = useLanguage();
@@ -13,17 +14,14 @@ const GetInTouch: React.FC = () => {
     {
       name: 'YouTube',
       url: 'https://youtu.be/DNMRI-zWwSU?feature=share',
-      icon: '/icons/youtube.svg',
     },
     {
       name: 'Instagram',
       url: 'https://www.instagram.com/reel/DGyQEk8OGNs/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=',
-      icon: '/icons/instagram.svg',
     },
     {
       name: 'LinkedIn',
       url: 'https://www.linkedin.com/company/%C3%A6ther-swiss-kite',
-      icon: '/icons/linkedin.svg',
     },
   ];
 
@@ -101,11 +99,7 @@ const GetInTouch: React.FC = () => {
                       className="contact-social-link"
                       aria-label={`Visit our ${social.name} page`}
                     >
-                      <img
-                        src={social.icon}
-                        alt={social.name}
-                        className="contact-social-icon"
-                      />
+                      <SocialIcon name={social.name} className="contact-social-icon" />
                     </a>
                   ))}
                 </div>

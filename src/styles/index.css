@@ -774,19 +774,22 @@ button:focus-visible {
   height: 46px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.08);
-  transition: transform 0.25s ease, background-color 0.25s ease;
+  color: #ffffff;
+  transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
 }
 
 .contact-social-link:hover {
   background-color: rgba(255, 255, 255, 0.16);
+  color: var(--theme-accent-hover);
   transform: translateY(-2px);
 }
 
 .contact-social-icon {
   width: 22px;
   height: 22px;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
+  display: block;
+  fill: currentColor;
+  flex-shrink: 0;
 }
 
 .team-section-divider {

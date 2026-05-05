@@ -122,7 +122,7 @@ const translations = {
     contactSection: {
       kicker: 'Contact',
       title: 'Construisons la suite ensemble.',
-      description: 'Siii vous souhaitez rejoindre l’équipe, collaborer ou simplement en savoir plus sur le projet, c’est le bon point d’entrée.',
+      description: 'Si vous souhaitez rejoindre l’équipe, collaborer ou simplement en savoir plus sur le projet, c’est le bon point d’entrée.',
       copyAction: 'Copier l’adresse',
       copyFeedback: 'Adresse copiée',
       cardLabel: 'Accès rapides',

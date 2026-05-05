@@ -1509,6 +1509,7 @@ button:focus-visible {
   height: 44px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
 }
@@ -1522,13 +1523,14 @@ button:focus-visible {
 .footer-social-icon {
   width: 24px;
   height: 24px;
-  object-fit: contain;
-  filter: brightness(0) invert(1); /* Make icons white */
-  transition: filter 0.3s ease;
+  display: block;
+  fill: currentColor;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
 }
 
 .footer-social-link:hover .footer-social-icon {
-  filter: brightness(0) invert(1); /* Keep white on hover */
+  transform: scale(1.04);
 }
 
 /* Footer Bottom */

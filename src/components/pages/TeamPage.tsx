@@ -13,7 +13,15 @@ import { useLanguage } from '../../context/LanguageContext';
 interface TeamItem extends ContentItem {
   fields: {
     teamMemberName?: string;
-    teamMemberImage?: string;
+    teamMemberImage?: unknown;
+    teamMemberPhoto?: unknown;
+    memberImage?: unknown;
+    memberPhoto?: unknown;
+    member_photo?: unknown;
+    photo?: unknown;
+    image?: unknown;
+    portrait?: unknown;
+    avatar?: unknown;
     teamMemberTitle?: string;
     teamCategory?: string;
     order?: number;
@@ -71,6 +79,64 @@ const TeamPage: React.FC = () => {
 
     const matchesAny = (value: string, patterns: string[]): boolean =>
       patterns.some((pattern) => value.includes(pattern));
+
+    const normalizeContentfulImageUrl = (value: unknown): string | undefined => {
+      if (typeof value === 'string' && value.trim()) {
+        return value.startsWith('//') ? `https:${value}` : value;
+      }
+
+      if (!value || typeof value !== 'object') {
+        return undefined;
+      }
+
+      const asset = value as {
+        url?: string;
+        fields?: {
+          file?: { url?: string } | Record<string, { url?: string }>;
+        };
+      };
+
+      const directUrl = asset.url;
+      if (directUrl) {
+        return directUrl.startsWith('//') ? `https:${directUrl}` : directUrl;
+      }
+
+      const file = asset.fields?.file;
+      if (file && typeof file === 'object') {
+        const fileUrl = (file as { url?: unknown }).url;
+        if (typeof fileUrl === 'string' && fileUrl) {
+          return fileUrl.startsWith('//') ? `https:${fileUrl}` : fileUrl;
+        }
+
+        const localizedFile = Object.values(file).find(
+          (fileValue): fileValue is { url: string } =>
+            typeof fileValue === 'object' &&
+            fileValue !== null &&
+            'url' in fileValue &&
+            typeof fileValue.url === 'string'
+        );
+        if (localizedFile) {
+          return localizedFile.url.startsWith('//') ? `https:${localizedFile.url}` : localizedFile.url;
+        }
+      }
+
+      return undefined;
+    };
+
+    const getTeamMemberImage = (team: TeamItem): string | undefined =>
+      [
+        team.fields.member_photo,
+        team.fields.teamMemberImage,
+        team.fields.teamMemberPhoto,
+        team.fields.memberImage,
+        team.fields.memberPhoto,
+        team.fields.photo,
+        team.fields.image,
+        team.fields.portrait,
+        team.fields.avatar,
+      ]
+        .map(normalizeContentfulImageUrl)
+        .find(Boolean);
 
     const presidencyCategories = ['presidence', 'présidence', 'presidency', 'comite', 'comité', 'committee'];
     const impactStrategyCategories = [
@@ -361,18 +427,23 @@ const TeamPage: React.FC = () => {
                   <Col sm={1}></Col>
                   <Col sm={10}>
                     <Row className="gy-4">
-                      {teams.map((team) => (
+                      {teams.map((team) => {
+                        const teamMemberImage = getTeamMemberImage(team);
+
+                        return (
                         <Col key={team.id} sm={4} className="text-center">
-                          <Image
-                            className="image-partner"
-                            src={team.fields.teamMemberImage}
-                            alt={team.fields.teamMemberName}
-                            fluid
-                          />
+                          {teamMemberImage && (
+                            <Image
+                              className="image-partner"
+                              src={teamMemberImage}
+                              alt={team.fields.teamMemberName}
+                              fluid
+                            />
+                          )}
                           <p className="text-mono-body mt-2">{team.fields.teamMemberName}</p>
                           <span className="text-mono-body mt-2"><ReactMarkdown>{team.fields.teamMemberTitle}</ReactMarkdown></span>
                         </Col>
-                      ))}
+                      )})}
                     </Row>
                   </Col>
                 </Row>

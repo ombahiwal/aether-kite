@@ -10,6 +10,32 @@ if (!SPACE_ID || !ACCESS_TOKEN) {
 
 const BASE_URL = `https://cdn.contentful.com/spaces/${SPACE_ID}/environments/master`;
 
+const toContentfulAssetUrl = (url?: string | null): string | null => {
+  if (!url) return null;
+  return url.startsWith('//') ? `https:${url}` : url;
+};
+
+const getLocalizedContentfulValue = (value: any, locale?: string): any => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return value;
+  }
+
+  if ('url' in value) {
+    return value;
+  }
+
+  if (locale && value[locale]) {
+    return value[locale];
+  }
+
+  return value['en-US'] || Object.values(value)[0];
+};
+
+const getAssetFileUrl = (asset: any, locale?: string): string | null => {
+  const file = getLocalizedContentfulValue(asset?.fields?.file, locale);
+  return toContentfulAssetUrl(file?.url);
+};
+
 // Export ContentItem interface
 export interface ContentItem {
   id: string;
@@ -60,14 +86,14 @@ export const getContent = async (contentType?: string, locale?: string): Promise
 
     const assetsMap: Record<string, string | null> = {};
     (response.data.includes?.Asset || []).forEach((asset: any) => {
-      assetsMap[asset.sys.id] = asset.fields.file?.url
-        ? `https:${asset.fields.file.url}`
-        : null;
+      assetsMap[asset.sys.id] = getAssetFileUrl(asset, locale);
     });
 
     const resolveField = (field: any): any => {
       if (Array.isArray(field)) {
         return field.map(resolveField);
+      } else if (field?.sys?.type === "Asset") {
+        return getAssetFileUrl(field, locale);
       } else if (field?.sys?.type === "Link" && field.sys.linkType === "Asset") {
         return assetsMap[field.sys.id] || null;
       } else if (typeof field === "object" && field !== null) {
@@ -105,4 +131,3 @@ export const getContent = async (contentType?: string, locale?: string): Promise
     return [];
   }
 };
-

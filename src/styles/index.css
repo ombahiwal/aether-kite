@@ -570,6 +570,10 @@ button:focus-visible {
 }
 
 .join-partners-section {
+  margin-bottom: 8rem;
+}
+
+.logistic-partners-section {
   margin-bottom: 16rem;
 }
 
@@ -579,6 +583,10 @@ button:focus-visible {
   }
 
   .join-partners-section {
+    margin-bottom: 4rem;
+  }
+
+  .logistic-partners-section {
     margin-bottom: 8rem;
   }
 }
@@ -865,7 +873,8 @@ button:focus-visible {
   line-height: 0.9;
 }
 
-.join-partners-section > .row:first-child .text-section-heading {
+.join-partners-section > .row:first-child .text-section-heading,
+.logistic-partners-section > .row:first-child .text-section-heading {
   white-space: nowrap;
 }
 

@@ -68,10 +68,7 @@ const JoinPartnerPage: React.FC = () => {
     };
 
     const getPartnerCategoryClassName = (category: string): string => {
-        const normalizedCategory = category
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .toLowerCase();
+        const normalizedCategory = normalizeCategory(category);
 
         if (normalizedCategory === 'mistral') return 'partner-tier-gold';
         if (normalizedCategory === 'joran') return 'partner-tier-silver';
@@ -80,15 +77,43 @@ const JoinPartnerPage: React.FC = () => {
         return '';
     };
 
-    const shouldHidePartnerName = (partnerName?: string): boolean => {
-        const normalizedPartnerName = (partnerName || '')
+    const normalizeCategory = (category: string): string =>
+        category
           .normalize('NFD')
           .replace(/[\u0300-\u036f]/g, '')
           .toLowerCase()
           .trim();
 
-        return ['makita', 'swiss composite'].includes(normalizedPartnerName);
+    const isLogisticCategory = (category: string): boolean => {
+        const normalizedCategory = normalizeCategory(category);
+
+        return normalizedCategory.includes('logistic') || normalizedCategory.includes('logistique');
     };
+
+    const renderPartnerCategory = ([category, partners]: [string, PartnerItem[]]) => (
+        <Container key={category} fluid className="partners-section mb-5">
+            <Row className="align-items-center">
+            <Col sm={2}>
+                <h1 className={`text-section-heading-sub ${getPartnerCategoryClassName(category)}`.trim()}>{category}</h1>
+            </Col>
+
+            <Col sm={10}>
+                <Row className="gy-4">
+                {partners.map((partner) => (
+                    <Col key={partner.id} sm={4} className="text-center">
+                    <Image
+                        className="image-partner"
+                        src={partner.fields.partnerLogo}
+                        alt={partner.fields.partnerName}
+                        fluid
+                    />
+                    </Col>
+                ))}
+                </Row>
+            </Col>
+            </Row>
+        </Container>
+    );
 
     if (isLoading) {
       return (
@@ -107,6 +132,11 @@ const JoinPartnerPage: React.FC = () => {
         </div>
       );
     }
+
+    const groupedPartnerEntries = Object.entries(groupPartnersByCategory(data));
+    const logisticPartnerEntries = groupedPartnerEntries.filter(([category]) => isLogisticCategory(category));
+    const standardPartnerEntries = groupedPartnerEntries.filter(([category]) => !isLogisticCategory(category));
+
     return (<div> 
                 <div style={{ height: '300px', position: 'relative' }}>
                            <ThreadsCanvas color={[105,105,105]} amplitude={250} distance={20} numLines={8} />
@@ -128,36 +158,22 @@ const JoinPartnerPage: React.FC = () => {
                                 </Row>
                                 
                                 <Row className="">
-                                   {data && Object.entries(groupPartnersByCategory(data)).map(([category, partners]: [string, PartnerItem[]]) => (
-                                        <Container key={category} fluid className="partners-section mb-5">
-                                            <Row className="align-items-center">
-                                            <Col sm={2}>
-                                                <h1 className={`text-section-heading-sub ${getPartnerCategoryClassName(category)}`.trim()}>{category}</h1>
-                                            </Col>
-                
-                                            <Col sm={10}>
-                                                <Row className="gy-4">
-                                                {partners.map((partner) => (
-                                                    <Col key={partner.id} sm={4} className="text-center">
-                                                    <Image
-                                                        className="image-partner"
-                                                        src={partner.fields.partnerLogo}
-                                                        alt={partner.fields.partnerName}
-                                                        fluid
-                                                    />
-                                                    {!shouldHidePartnerName(partner.fields.partnerName) && (
-                                                      <p className="text-mono-body mt-2">{partner.fields.partnerName}</p>
-                                                    )}
-                                                    </Col>
-                                                ))}
-                                                </Row>
-                                            </Col>
-                                            </Row>
-                                        </Container>
-                                        ))}
+                                   {standardPartnerEntries.map(renderPartnerCategory)}
                                 </Row>       
                           
                             </Container>
+                            {logisticPartnerEntries.length > 0 && (
+                              <Container className="partners-section border-1px logistic-partners-section" fluid>
+                                  <Row>
+                                      <Col sm={1}></Col>
+                                      <Col sm={10}><p className="text-left text-section-heading ">{t('partnersPage.logisticTitle')}</p></Col>
+                                  </Row>
+
+                                  <Row className="">
+                                      {logisticPartnerEntries.map(renderPartnerCategory)}
+                                  </Row>
+                              </Container>
+                            )}
                             <Footer/>
       </div>)
 }

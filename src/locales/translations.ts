@@ -90,6 +90,7 @@ const translations = {
     },
     partnersPage: {
       title: 'Our Partners',
+      logisticTitle: 'Logistic partners',
     },
   },
   fr: {
@@ -183,6 +184,7 @@ const translations = {
     },
     partnersPage: {
       title: 'Nos partenaires',
+      logisticTitle: 'Partenaires logistiques',
     },
   },
   de: {

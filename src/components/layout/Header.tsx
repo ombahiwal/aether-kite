@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { useLanguage } from "../../context/LanguageContext";
+import LanguageSelector from "../ui/LanguageSelector";
 
 const Header: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -84,7 +85,6 @@ const Header: React.FC = () => {
     { href: "/events", label: t("nav.events"), hash: "" },
     { href: "/join", label: t("nav.join"), hash: "" },
     { href: "/team", label: t("nav.team"), hash: "" },
-    { href: "/documents/statutes.pdf", label: t("nav.statutes"), hash: "" },
     { href: "/#contact", label: t("nav.getInTouch"), hash: "#contact" },
   ];
 
@@ -150,6 +150,10 @@ const Header: React.FC = () => {
               );
             })}
           </nav>
+
+          <div className="header-actions">
+            <LanguageSelector />
+          </div>
 
           {/* Mobile Menu Button */}
           <button

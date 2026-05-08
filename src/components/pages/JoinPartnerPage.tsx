@@ -19,7 +19,7 @@ interface PartnerItem extends ContentItem {
 }
 
 const JoinPartnerPage: React.FC = () => {
-    const { language } = useLanguage();
+    const { language, t } = useLanguage();
     const [data, setData] = useState<ContentItem[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -124,7 +124,7 @@ const JoinPartnerPage: React.FC = () => {
                             <Container className="partners-section border-1px join-partners-section" fluid>
                                 <Row >
                                     <Col sm={1}></Col>
-                                    <Col sm={10}><p className="text-left text-section-heading ">Our Partners</p></Col>
+                                    <Col sm={10}><p className="text-left text-section-heading ">{t('partnersPage.title')}</p></Col>
                                 </Row>
                                 
                                 <Row className="">

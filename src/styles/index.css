@@ -865,6 +865,10 @@ button:focus-visible {
   line-height: 0.9;
 }
 
+.join-partners-section > .row:first-child .text-section-heading {
+  white-space: nowrap;
+}
+
 .border-1px {
   /* border: 1px solid #1a1a1a; */
   padding: 10px;
@@ -1042,6 +1046,7 @@ button:focus-visible {
   transition: all 0.3s ease;
   position: relative;
   padding: 0.5rem 0;
+  white-space: nowrap;
 }
 
 .nav-links-desktop .nav-link::after {
@@ -1086,6 +1091,32 @@ button:focus-visible {
   color: var(--theme-accent-hover);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  z-index: 1001;
+}
+
+.site-header .language-selector {
+  gap: 0.35rem;
+}
+
+.site-header .language-button {
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  min-width: 34px;
+  min-height: 34px;
+  padding: 0.25rem 0.5rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.site-header .language-button:hover,
+.site-header .language-button.active {
+  border-color: rgba(255, 138, 138, 0.75);
+  color: #ff8a8a;
+}
+
 /* Mobile Menu Toggle */
 .mobile-menu-toggle {
   display: none;
@@ -1099,7 +1130,7 @@ button:focus-visible {
   padding: 0;
   z-index: 1001;
   position: relative;
-  margin-left: auto;
+  margin-left: 1rem;
 }
 
 .mobile-menu-toggle span {
@@ -1165,6 +1196,7 @@ button:focus-visible {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
   display: block;
+  white-space: nowrap;
 }
 
 .nav-links-mobile .nav-link:last-child {
@@ -1268,6 +1300,7 @@ button:focus-visible {
   transition: color 0.3s ease, transform 0.25s ease, font-weight 0.25s ease;
   position: relative;
   padding-bottom: 0.3em;
+  white-space: nowrap;
 }
 
 .nav-link-button-large {

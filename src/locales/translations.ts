@@ -4,7 +4,7 @@ const translations = {
       home: 'HOME',
       team: 'THE TEAM',
       events: 'TIMELINE',
-      join: 'JOIN',
+      join: 'OUR PARTNERS',
       news: 'NEWS',
       statutes: 'STATUTES',
       getInTouch: 'GET IN TOUCH',
@@ -14,7 +14,7 @@ const translations = {
       home: 'Home',
       theTeam: 'The Team',
       events: 'Timeline',
-      join: 'Join',
+      join: 'Our Partners',
       news: 'News',
       statutes: 'Statutes',
       getInTouch: 'Get in Touch',
@@ -88,13 +88,16 @@ const translations = {
       back: 'Back to events',
       publishedOn: 'Recorded on',
     },
+    partnersPage: {
+      title: 'Our Partners',
+    },
   },
   fr: {
     nav: {
       home: 'ACCUEIL',
       team: 'L\'ÉQUIPE',
       events: 'CHRONOLOGIE',
-      join: 'REJOINDRE',
+      join: 'NOS PARTENAIRES',
       news: 'ACTUALITÉS',
       statutes: 'STATUTS',
       getInTouch: 'NOUS CONTACTER',
@@ -104,7 +107,7 @@ const translations = {
       home: 'Accueil',
       theTeam: 'L\'Équipe',
       events: 'Chronologie',
-      join: 'Rejoindre',
+      join: 'Nos partenaires',
       news: 'Actualités',
       statutes: 'Statuts',
       getInTouch: 'Nous Contacter',
@@ -177,6 +180,9 @@ const translations = {
     eventsDetail: {
       back: 'Retour aux événements',
       publishedOn: 'Enregistré le',
+    },
+    partnersPage: {
+      title: 'Nos partenaires',
     },
   },
   de: {

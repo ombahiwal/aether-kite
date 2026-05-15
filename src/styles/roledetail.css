@@ -294,6 +294,15 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .role-detail-content {
+    padding-inline: 1rem;
+  }
+
+  .role-hero-image {
+    max-height: none;
+    margin-bottom: 1.5rem;
+  }
+
   .role-body {
     font-size: 0.9rem;
   }
@@ -313,11 +322,18 @@
   .role-header {
     padding: 1.5rem 0;
   }
+
+  .back-link,
+  .back-link-footer {
+    overflow-wrap: anywhere;
+  }
 }
 
 @media (max-width: 576px) {
   .role-title-main {
-    font-size: 2rem;
+    font-size: clamp(1.9rem, 10vw, 2.25rem);
+    line-height: 1;
+    overflow-wrap: anywhere;
   }
   
   .role-body h1 {

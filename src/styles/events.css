@@ -306,3 +306,75 @@
     display: none;
   }
 }
+
+@media (max-width: 768px) {
+  .events-hero {
+    padding: 3.25rem 1rem 1.75rem;
+  }
+
+  .events-hero-title {
+    font-size: clamp(2.15rem, 11vw, 2.75rem);
+    line-height: 1;
+    overflow-wrap: anywhere;
+  }
+
+  .events-content {
+    padding: 2rem 1rem 3rem;
+  }
+
+  .events-sticky-card {
+    padding: 1.25rem;
+  }
+
+  .events-current-title {
+    font-size: clamp(1.45rem, 8vw, 1.9rem);
+  }
+
+  .events-current-year {
+    font-size: 1.45rem;
+  }
+
+  .events-timeline {
+    padding-left: 0;
+  }
+
+  .events-timeline-line {
+    display: none;
+  }
+
+  .events-timeline-spacer {
+    height: 2rem;
+  }
+
+  .event-card {
+    padding: 1rem;
+    border-color: var(--theme-border-secondary);
+    border-radius: 0.75rem;
+  }
+
+  .event-card-title {
+    font-size: 1.2rem;
+  }
+
+  .event-card-summary {
+    font-size: 0.9rem;
+  }
+
+  .event-card-link,
+  .events-current-label,
+  .events-year-label,
+  .events-hero-kicker {
+    letter-spacing: 0.12em;
+  }
+}
+
+@media (max-width: 576px) {
+  .event-card-date {
+    align-items: flex-start;
+  }
+
+  .event-card-link {
+    width: 100%;
+    overflow-wrap: anywhere;
+  }
+}

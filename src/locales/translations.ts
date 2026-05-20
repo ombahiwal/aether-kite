@@ -7,6 +7,7 @@ const translations = {
       join: 'OUR PARTNERS',
       news: 'NEWS',
       statutes: 'STATUTES',
+      recruitment: 'RECRUITMENT',
       getInTouch: 'GET IN TOUCH',
     },
     footer: {
@@ -104,6 +105,7 @@ const translations = {
       join: 'NOS PARTENAIRES',
       news: 'ACTUALITÉS',
       statutes: 'STATUTS',
+      recruitment: 'RECRUTEMENT',
       getInTouch: 'NOUS CONTACTER',
     },
     footer: {
@@ -201,6 +203,7 @@ const translations = {
       join: 'BEITRETEN',
       news: 'NEWS',
       statutes: 'STATUTEN',
+      recruitment: 'REKRUTIERUNG',
       getInTouch: 'KONTAKT',
     },
     footer: {

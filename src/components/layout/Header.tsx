@@ -52,6 +52,7 @@ const Header: React.FC = () => {
   }, [isMobileMenuOpen]);
 
   const { t } = useLanguage();
+  const recruitmentUrl = "https://go.epfl.ch/ask_recrutement";
 
   const handleContactNavigation = () => {
     setIsMobileMenuOpen(false);
@@ -85,6 +86,7 @@ const Header: React.FC = () => {
     { href: "/events", label: t("nav.events"), hash: "" },
     { href: "/join", label: t("nav.join"), hash: "" },
     { href: "/team", label: t("nav.team"), hash: "" },
+    { href: recruitmentUrl, label: t("nav.recruitment"), hash: "", external: true },
     { href: "/#contact", label: t("nav.getInTouch"), hash: "#contact" },
   ];
 
@@ -117,7 +119,7 @@ const Header: React.FC = () => {
             {navLinks.map((link) => {
               const active = isActive(link.href);
               return (
-                link.href.endsWith('.pdf') ? (
+                link.external || link.href.endsWith('.pdf') ? (
                   <a
                     key={link.href}
                     href={link.href}
@@ -173,7 +175,7 @@ const Header: React.FC = () => {
           {navLinks.map((link) => {
             const active = isActive(link.href);
             return (
-              link.href.endsWith('.pdf') ? (
+              link.external || link.href.endsWith('.pdf') ? (
                 <a
                   key={link.href}
                   href={link.href}

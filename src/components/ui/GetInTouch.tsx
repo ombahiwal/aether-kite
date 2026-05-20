@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
@@ -9,6 +9,7 @@ const GetInTouch: React.FC = () => {
   const [emailCopied, setEmailCopied] = useState(false);
   const copyFeedbackTimeoutRef = useRef<number | null>(null);
   const contactEmail = 'contact@aetherswisskite.ch';
+  const recruitmentUrl = 'https://go.epfl.ch/ask_recrutement';
 
   const socialLinks = [
     {
@@ -30,6 +31,14 @@ const GetInTouch: React.FC = () => {
     { href: '/team', label: t('contactSection.secondaryLink') },
     { href: '/news', label: t('contactSection.tertiaryLink') },
   ];
+
+  useEffect(() => {
+    return () => {
+      if (copyFeedbackTimeoutRef.current) {
+        window.clearTimeout(copyFeedbackTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleCopyEmail = async () => {
     try {
@@ -80,6 +89,22 @@ const GetInTouch: React.FC = () => {
             <div className="contact-card">
               <p className="contact-card-label">{t('contactSection.cardLabel')}</p>
               <div className="contact-quick-links">
+                <a
+                  href={recruitmentUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="contact-recruitment-link"
+                >
+                  <span className="contact-recruitment-eyebrow">
+                    {t('contactSection.recruitmentEyebrow')}
+                  </span>
+                  <span className="contact-recruitment-title">
+                    {t('contactSection.recruitmentTitle')}
+                  </span>
+                  <span className="contact-recruitment-description">
+                    {t('contactSection.recruitmentDescription')}
+                  </span>
+                </a>
                 {quickLinks.map((link) => (
                   <Link key={link.href} to={link.href} className="contact-quick-link">
                     {link.label}
